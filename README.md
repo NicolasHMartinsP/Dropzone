@@ -1,5 +1,21 @@
 # DropZone
 
+## Prioridades aprovadas (2026-11-03)
+
+1. Migrar SQLite para **PostgreSQL + Sequelize**, requisito obrigatório da faculdade (#12).
+2. Baixar **MP4/MP3 por links compartilhados** de fontes públicas suportadas, além dos links diretos (#4).
+3. Validar conversões de imagens PNG/JPG/WebP, áudio MP3/WAV/OGG, vídeo MP4/WebM e extração MP4 → MP3 (#14).
+4. Simplificar a interface: #171219, #355834 e #D33F49, texto neutro legível, grão discreto, espaçamento consistente e animações curtas (#15).
+5. Conta e histórico privado de metadados ficam depois das ferramentas públicas (#13, #16 e #17).
+
+**Situação real:** o código ainda usa SQLite, aceita links diretos e converte no backend local com Sharp/FFmpeg. PostgreSQL e links compartilhados são trabalho pendente; não foram implementados por esta atualização de planejamento.
+Para entregar áudio/vídeo sem duplicar motores, o backend existente será reaproveitado. Conversão no navegador fica como melhoria posterior.
+O adaptador de compartilhamento deve avaliar yt-dlp; suporte por fonte precisa ser testado e datado, sem promessa de compatibilidade universal.
+PDF/Office, playlists/lotes e login em plataformas não fazem parte desta primeira entrega.
+
+O [Project](https://github.com/users/NicolasHMartinsP/projects/1) é a fonte oficial de tarefas e status.
+
+
 ![React](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-22%2B-339933?logo=node.js&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-5-333333?logo=express&logoColor=white)
@@ -44,7 +60,7 @@ A aplicação é executada localmente, sem depender de hospedagem ou serviços d
 
 ---
 
-## Arquitetura
+## Arquitetura atual
 
 A aplicação utiliza uma arquitetura em camadas, separando interface, comunicação HTTP, regras de negócio, processamento e persistência.
 

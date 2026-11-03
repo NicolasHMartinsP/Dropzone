@@ -1,8 +1,13 @@
 {
   "project": "DropZone — Desenvolvimento",
-  "repository": null,
-  "externalBoardCreated": false,
-  "columns": ["A fazer", "Em andamento", "Testes", "Concluído"],
+  "repository": "NicolasHMartinsP/Dropzone",
+  "externalBoardCreated": true,
+  "columns": [
+    "A fazer",
+    "Em andamento",
+    "Testes",
+    "Concluído"
+  ],
   "tasks": [
     {
       "id": "DZ-01",
@@ -149,5 +154,8 @@
         "Swagger Try it out e histórico são apresentados."
       ]
     }
-  ]
+  ],
+  "historicalSnapshot": true,
+  "snapshotDescription": "Preparação inicial anterior ao quadro real. Tarefas/status abaixo são históricos e não devem orientar o desenvolvimento atual.",
+  "sourceOfTruth": "https://github.com/users/NicolasHMartinsP/projects/1"
 }

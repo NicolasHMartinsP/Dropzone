@@ -16,24 +16,33 @@
 | CSS separado                    | CSS Module por página/componente; nenhum CSS monolítico                                   |
 | Estilos globais                 | `frontend/src/styles/global.css` com tokens e paleta                                      |
 | React Router DOM                | `BrowserRouter`, `Routes`, `Route`, `Link`, `NavLink` e `Outlet`                          |
-| Sequelize                       | Modelo `Job`, conexão SQLite e migrações versionadas                                      |
+| Sequelize                       | Atual: `Job`/SQLite; obrigatório: PostgreSQL, pendente na #12                                      |
 | Swagger para documentar/testar  | `/api-docs`, `/api-docs.json` e `backend/src/docs/openapi.js`                             |
 | Documentação no frontend        | `frontend/docs` com telas, componentes, testes e manutenção                               |
-| GitHub Projects Board           | Backlog e instruções preparados; criação externa depende do repositório de destino        |
-| Issues com responsável e aceite | `.github/ISSUE_TEMPLATE/tarefa.yml` e `docs/backlog.json`; não publicadas ainda           |
+| GitHub Projects Board           | Quadro real: https://github.com/users/NicolasHMartinsP/projects/1        |
+| Issues com responsável e aceite | Issues publicadas no repositório; Projects é a fonte oficial           |
 | Legibilidade e manutenção       | Funções nomeadas, separação por responsabilidade, Prettier e guia de leitura              |
-| Paleta enviada                  | Cores-base extraídas da imagem e definidas em `global.css`                                |
+| Paleta enviada                  | Nova paleta aprovada; implementação pendente na #15                                |
 
-## Paleta
+## Entregas atuais
 
-Valores aproximados extraídos das áreas centrais da imagem de referência:
+| Entrega | Issue | Situação |
+| --- | --- | --- |
+| PostgreSQL obrigatório | #12 | Planejado |
+| MP4/MP3 por link compartilhado de fontes suportadas | #4 | Planejado; só link direto existe |
+| Conversões principais de imagem, áudio e vídeo | #14 | Motor existente; validação da matriz pendente |
+| Interface minimalista | #15 | Planejado |
+| Usuários/sessões e histórico privado | #13, #16, #17 | Posterior às ferramentas públicas |
+| Verificação e apresentação | #18, #11 | Pendente |
 
-| Cor          | Hexadecimal | Uso                                         |
-| ------------ | ----------- | ------------------------------------------- |
-| Verde neon   | `#1EFD4A`   | Ações principais, marca, pequenos destaques |
-| Verde escuro | `#0A3D14`   | Referência para tons de sucesso             |
-| Azul marinho | `#041447`   | Base visual e arte da landing               |
-| Azul         | `#3E43B8`   | Superfícies e elementos da ilustração       |
-| Roxo         | `#8488F6`   | Seleção, ícones e destaque tipográfico      |
+## Paleta aprovada
 
-Tons auxiliares mais escuros e neutros garantem legibilidade. A imagem não contém códigos impressos; por isso os valores são amostrados, não uma especificação oficial da paleta.
+| Cor principal | Uso |
+| --- | --- |
+| #171219 | Fundo |
+| #355834 | Ações e seleção |
+| #D33F49 | Acentos e erros |
+
+Branco/cinza são neutros de texto. Implementar contraste legível, espaçamento 8/16/24/32 px, grão estático discreto e transições de 120–180 ms.
+A paleta anterior ainda está no CSS; a troca será realizada na #15.
+Conversão no navegador é melhoria posterior. Não prometer suporte universal a links nem conversão PDF/Office nesta primeira entrega.
