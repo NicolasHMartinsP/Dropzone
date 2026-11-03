@@ -1,131 +1,365 @@
 # DropZone
 
-Plataforma para baixar mídias por link direto e converter arquivos.
+![React](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-22%2B-339933?logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Express-5-333333?logo=express&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Em%20desenvolvimento-orange)
 
+> **Ferramenta pessoal para download de mídias por URLs diretas e conversão de arquivos**, desenvolvida com React, Node.js e uma arquitetura modular voltada à execução local.
 
-## O que está implementado
+---
 
-| Tela                | Rota         |
-| ------------------- | ------------ |
-| Landing page / home | `/`          |
-| Downloads           | `/downloads` | 
-| Conversor           | `/conversor` |
-| Histórico           | `/historico` |
+## Problema e Solução
 
-### Formatos e limites
+Converter arquivos ou baixar mídias disponíveis na internet costuma exigir diferentes ferramentas, instalações ou serviços online.
 
-| Entrada                                                        | Saída                                              |
-| -------------------------------------------------------------- | -------------------------------------------------- |
-| Imagem estática PNG, JPG, WebP ou AVIF                         | PNG, JPG, WebP, AVIF                               |
-| Áudio reconhecido, como MP3, WAV, OGG, M4A ou FLAC, com FFmpeg | MP3, WAV, OGG                                      |
-| Vídeo reconhecido, como MP4, WebM, MOV ou MKV, com FFmpeg      | MP4, WebM e, se houver faixa de áudio, MP3/WAV/OGG |
-| Link direto HTTP/HTTPS de mídia compatível                     | Original ou conversão compatível                   |
+O **DropZone** foi desenvolvido para centralizar essas operações em uma interface web simples, permitindo selecionar arquivos, escolher formatos compatíveis e salvar os resultados diretamente no computador.
 
-- Entrada: até **50 MB**. Imagens: até **20 megapixels**. Áudio/vídeo: até **10 minutos**.
-- Saída: até **200 MB**; processamento: até **2 minutos**.
-- Dois processamentos simultâneos; até 20 solicitações de processamento por minuto e por IP.
-- Uma análise de link guarda a fonte por 15 minutos. Até dez fontes podem aguardar processamento.
-- Resultados ficam disponíveis por **24 horas**, por padrão. A limpeza verifica arquivos a cada minuto e na inicialização. O histórico permanece até exclusão manual.
-- “Original” preserva os bytes; conversões podem alterar tamanho e qualidade. JPG perde transparência e recebe fundo branco. Metadados de imagens não são preservados.
-- O registro de download significa que o arquivo foi **preparado no servidor**. O navegador ainda precisa salvá-lo pelo botão “Salvar arquivo”.
+A aplicação é executada localmente, sem depender de hospedagem ou serviços de conversão em nuvem.
 
-**Links de páginas do YouTube/Instagram, HLS/DASH, playlists, login, DRM, PDFs, documentos Office e imagens animadas não são suportados nesta versão.** Para demonstrar downloads, use uma URL que aponte diretamente para uma mídia pública. Não basta renomear a extensão: o backend inspeciona o conteúdo.
+**O projeto está em desenvolvimento**, com foco em simplicidade, manutenção e processamento eficiente de arquivos.
 
-## Organização e leitura do código
+---
 
-| Pasta                            | Responsabilidade                                        |
-| -------------------------------- | ------------------------------------------------------- |
-| `frontend/src/pages`             | Telas e estado de cada fluxo                            |
-| `frontend/src/components`        | Componentes reutilizáveis, cada um com JSX e CSS Module |
-| `frontend/src/services`          | Toda comunicação HTTP da interface                      |
-| `frontend/src/contexts`          | Conexão com a API e avisos globais                      |
-| `frontend/src/styles/global.css` | Paleta, tokens, reset e estilos realmente globais       |
-| `frontend/docs`                  | Telas, componentes, testes, manutenção e planejamento   |
-| `backend/src/routes`             | Rotas e middlewares de cada endpoint                    |
-| `backend/src/controllers`        | Leitura da requisição e montagem da resposta            |
-| `backend/src/services`           | Processamento, acesso remoto e consultas do histórico   |
-| `backend/src/models`             | Modelo Sequelize                                        |
-| `backend/src/database`           | Migrações versionadas                                   |
-| `backend/src/docs`               | Especificação OpenAPI exibida no Swagger                |
-| `backend/tests`                  | Testes de integração da API                             |
+## Tecnologias
 
-**Comece a leitura por:** `frontend/src/App.jsx` → uma página → o service chamado por ela → `backend/src/routes/api.routes.js` → controller → service → model. Veja o exemplo explicado em [arquitetura.md](frontend/docs/arquitetura.md).
+### Frontend
 
-Foi adotada uma organização **MVC com services**, com React como camada de apresentação. “MCP” foi interpretado como possível referência a MVC; **não foi implementado um servidor Model Context Protocol**. Se a sigla do professor representar outro padrão, essa parte deve ser confirmada antes da apresentação.
+- **React 19:** construção da interface baseada em componentes.
+- **Vite:** ambiente de desenvolvimento e build.
+- **JavaScript:** lógica da aplicação.
+- **React Router DOM:** navegação entre páginas.
+- **CSS Modules:** isolamento e organização dos estilos.
 
-O código usa módulos ES, nomes explícitos e funções com responsabilidades delimitadas. Comentários explicam decisões relevantes. O Prettier padroniza a formatação; não foi adicionado um framework de arquitetura nem uma camada de repositories para este tamanho de projeto.
+### Backend
 
-## Verificação
+- **Node.js:** ambiente de execução JavaScript.
+- **Express 5:** implementação da API REST.
+- **Sequelize:** ORM para persistência de dados.
+- **SQLite:** banco de dados local.
+- **Sharp:** processamento e conversão de imagens.
+- **FFmpeg / FFprobe:** conversão e análise de áudio e vídeo.
+- **Multer:** recebimento e validação inicial de uploads.
+- **Helmet / express-rate-limit:** proteções HTTP e controle de requisições.
+- **Swagger / OpenAPI:** documentação interativa da API.
 
-Na pasta `backend`:
+---
+
+## Arquitetura
+
+A aplicação utiliza uma arquitetura em camadas, separando interface, comunicação HTTP, regras de negócio, processamento e persistência.
+
+O frontend é responsável pela interação com o usuário, enquanto o backend local executa operações que dependem de acesso a arquivos, bibliotecas de conversão e armazenamento.
+
+```text
+                   DropZone
+                      |
+            +---------+---------+
+            |                   |
+            v                   v
+      Frontend React       Backend Node.js
+            |                   |
+            v                   v
+       Pages / UI            API REST
+            |                   |
+            v                   v
+         Services           Controllers
+                                |
+                                v
+                             Services
+                                |
+                   +------------+------------+
+                   |            |            |
+                   v            v            v
+                Downloads    Conversões    Histórico
+                   |            |            |
+                   |       Sharp / FFmpeg   Sequelize
+                   |            |            |
+                   |            |           SQLite
+                   |            |
+                   +------+-----+
+                          |
+                          v
+                  Arquivos temporários
+                          |
+                          v
+                  Download do resultado
+```
+
+### Organização
+
+O backend segue uma organização baseada em **MVC com Services**, mantendo responsabilidades separadas:
+
+- **Routes:** definição dos endpoints e middlewares.
+- **Controllers:** recebimento das requisições e construção das respostas.
+- **Services:** processamento e regras de negócio.
+- **Models:** representação e persistência dos dados.
+- **Middlewares:** validações e tratamento de requisições.
+- **Shared:** utilitários e estruturas compartilhadas.
+
+Essa separação facilita manutenção, testes e implementação de novas funcionalidades.
+
+---
+
+## Funcionalidades
+
+### Downloads por URL
+
+Permite analisar e baixar arquivos de mídia disponíveis em URLs públicas HTTP/HTTPS.
+
+- Validação de URLs.
+- Identificação de formatos compatíveis.
+- Verificação do conteúdo recebido.
+- Preparação de arquivos para download.
+- Tratamento de erros e endereços incompatíveis.
+- Controle de tamanho e duração das requisições.
+
+**Limitação:** atualmente, a aplicação trabalha com links diretos de mídia. Páginas de plataformas como YouTube e Instagram, playlists HLS/DASH e conteúdos protegidos por DRM não são suportados.
+
+### Conversão de arquivos
+
+Permite selecionar ou arrastar arquivos e convertê-los para formatos compatíveis.
+
+**Imagens**
+- PNG
+- JPG
+- WebP
+- AVIF
+
+**Áudio**
+- MP3
+- WAV
+- OGG
+
+**Vídeo**
+- MP4
+- WebM
+- Extração de áudio de vídeos compatíveis.
+
+A conversão de imagens utiliza Sharp, enquanto áudio e vídeo dependem do FFmpeg.
+
+Atualmente, o processamento ocorre no backend local. A migração para conversões executadas diretamente no navegador está planejada para versões futuras.
+## Fluxo de Funcionamento
+
+### Download
+
+1. O usuário informa a URL de uma mídia pública.
+2. O backend valida o endereço e verifica o conteúdo.
+3. O sistema identifica os formatos compatíveis.
+4. O usuário solicita a preparação do arquivo.
+5. O resultado é disponibilizado para salvar no computador.
+
+### Conversão
+
+1. O usuário seleciona ou arrasta um arquivo.
+2. A aplicação verifica o formato e o tamanho.
+3. O usuário escolhe um formato de saída compatível.
+4. O backend processa o arquivo utilizando Sharp ou FFmpeg.
+5. O resultado é disponibilizado para download.
+6. A operação é registrada no histórico local.
+
+---
+
+## Formatos e Limites
+
+| Entrada | Saída |
+|---|---|
+| PNG, JPG, WebP, AVIF | PNG, JPG, WebP, AVIF |
+| MP3, WAV, OGG, M4A, FLAC e áudio compatível | MP3, WAV, OGG |
+| MP4, WebM, MOV, MKV e vídeo compatível | MP4, WebM |
+| Vídeo com faixa de áudio | MP3, WAV, OGG |
+| URL HTTP/HTTPS de mídia pública compatível | Arquivo original ou conversão compatível |
+
+### Limites atuais
+
+- **Entrada:** até 50 MB.
+- **Imagens:** até 20 megapixels.
+- **Áudio e vídeo:** até 10 minutos.
+- **Saída:** até 200 MB.
+- **Processamento:** até 2 minutos.
+- **Simultaneidade:** até 2 operações em processamento.
+- **Retenção dos resultados:** 24 horas, por padrão.
+
+Os limites podem ser ajustados conforme as configurações do ambiente.
+
+Arquivos temporários são removidos por uma rotina de limpeza. Os registros do histórico permanecem até exclusão manual.
+
+---
+
+## Como Rodar o Projeto
+
+### Pré-requisitos
+
+- Node.js 22.12 ou superior.
+- npm.
+- Git.
+- FFmpeg e FFprobe para conversões de áudio e vídeo.
+
+As conversões de imagens funcionam sem a instalação do FFmpeg.
+
+### Instalação
+
+Clone o repositório:
 
 ```bash
+git clone https://github.com/NicolasHMartinsP/Dropzone.git
+cd Dropzone
+```
+
+### Backend
+
+Em um terminal:
+
+```bash
+cd backend
+npm ci
+npm run dev
+```
+
+A API estará disponível em:
+
+`http://localhost:3333`
+
+### Frontend
+
+Abra outro terminal a partir da pasta raiz:
+
+```bash
+cd frontend
+npm ci
+npm run dev
+```
+
+Acesse a interface:
+
+`http://localhost:5173`
+
+Os dois processos precisam permanecer ativos para utilizar a versão atual da aplicação.
+
+### Configuração
+
+Os arquivos `.env.example` do frontend e backend apresentam as configurações disponíveis.
+
+É possível ajustar:
+
+- Porta da API.
+- Origem permitida no CORS.
+- Local de armazenamento.
+- Limite de tamanho dos arquivos.
+- Tempo de retenção.
+- Caminhos do FFmpeg e FFprobe.
+
+**Não versione arquivos `.env`, credenciais, bancos locais ou arquivos temporários.**
+
+---
+
+## Estrutura do Projeto
+
+```text
+Dropzone/
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── contexts/
+│   │   ├── hooks/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── styles/
+│   │   └── utils/
+│   └── docs/
+│
+├── backend/
+│   ├── src/
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── database/
+│   │   ├── docs/
+│   │   ├── middlewares/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   └── shared/
+│   ├── storage/
+│   └── tests/
+│
+├── .github/
+├── CONTRIBUTING.md
+└── README.md
+```
+
+---
+
+## Documentação Técnica
+
+A documentação complementar está disponível em `frontend/docs/`.
+
+- [Arquitetura](frontend/docs/arquitetura.md): organização das camadas e fluxo dos dados.
+- [Componentes](frontend/docs/componentes.md): catálogo de componentes da interface.
+- [Requisitos](frontend/docs/requisitos.md): rastreabilidade das funcionalidades.
+- [Testes](frontend/docs/testes.md): procedimentos de validação.
+- [Manutenção](frontend/docs/manutencao.md): orientações para evolução do projeto.
+
+### API
+
+A API utiliza OpenAPI e Swagger UI.
+
+Com o backend iniciado:
+
+**Documentação:** `http://localhost:3333/api-docs`
+
+**Health check:** `http://localhost:3333/api/health`
+
+---
+
+## Testes
+
+O backend utiliza Node.js Test Runner e Supertest.
+
+```bash
+cd backend
 npm test
 ```
 
-Na pasta `frontend`:
+Para verificar o build do frontend:
 
 ```bash
+cd frontend
 npm run build
 ```
 
-Os testes usam banco em memória e diretório temporário; não alteram seu histórico. Com FFmpeg presente, verificam também arquivos reais de áudio/vídeo. Sem FFmpeg, esse cenário é marcado como ignorado.
+Os testes da API utilizam um banco em memória e armazenamento temporário, sem alterar o histórico local do usuário.
 
-Confira o que foi verificado e o que ainda depende do seu computador em [testes.md](frontend/docs/testes.md). Não foi validado um download real de site externo neste ambiente; no teste de download, apenas o transporte remoto é substituído por uma fonte controlada. A prévia web deste ambiente não alcançou o backend executado separadamente, então a integração completa no navegador deve ser conferida localmente.
+Testes que dependem do FFmpeg podem ser ignorados quando a ferramenta não está instalada.
 
-Para padronizar alterações, na raiz do projeto:
+A validação de downloads externos reais ainda depende de testes específicos com URLs públicas. Os testes automatizados existentes utilizam fontes controladas.
 
-```bash
-npx prettier@3.6.2 --write frontend/src backend/src backend/tests
-```
+---
 
-## GitHub Projects e documentação
+## Privacidade e Execução Local
 
-O quadro deve ter exatamente **A fazer**, **Em andamento**, **Testes** e **Concluído**, com cartões vinculados a Issues, responsáveis e critérios de aceite.
+O DropZone foi desenvolvido para uso pessoal e não possui uma instância pública hospedada.
 
-Os arquivos abaixo estão preparados. O quadro e as Issues **ainda não foram criados na conta**, pois o repositório de destino não foi informado nem encontrado entre os repositórios conectados.
+- A interface é executada pelo navegador.
+- O backend é iniciado no próprio computador.
+- Os arquivos convertidos são processados localmente pelo backend.
+- O histórico é armazenado em SQLite.
+- Os resultados temporários seguem uma política de retenção e limpeza.
+- Downloads por URL exigem conexão com a internet.
 
-- [github-projects.md](frontend/docs/github-projects.md): configuração das colunas e fluxo de trabalho.
-- [backlog.json](frontend/docs/backlog.json): tarefas com descrição, situação e critérios de aceite.
-- `.github/ISSUE_TEMPLATE/tarefa.yml`: formulário para novas tarefas no repositório.
-- [telas.md](frontend/docs/telas.md): telas e situação.
-- [componentes.md](frontend/docs/componentes.md): catálogo e responsabilidades.
-- [manutencao.md](frontend/docs/manutencao.md): como ampliar o projeto.
-- [requisitos.md](frontend/docs/requisitos.md): relação entre requisitos e arquivos.
+O projeto não utiliza armazenamento de arquivos em nuvem.
 
-## Configuração opcional
+**Importante:** a publicação do código-fonte no GitHub não significa que o backend esteja preparado ou auditado para ser exposto diretamente à internet.
 
-Use os `.env.example` como referência. Não versione arquivos `.env`, banco, resultados ou `node_modules`.
+---
 
-| Variável                               | Padrão                      | Uso                                    |
-| -------------------------------------- | --------------------------- | -------------------------------------- |
-| Backend `PORT`                         | `3333`                      | Porta da API                           |
-| Backend `HOST`                         | `127.0.0.1`                 | Escuta somente no computador local     |
-| Backend `CLIENT_ORIGIN`                | `http://localhost:5173`     | Origem liberada no CORS                |
-| Backend `DB_STORAGE`                   | `./storage/dropzone.sqlite` | Caminho do SQLite, relativo ao backend |
-| Backend `MAX_FILE_SIZE_MB`             | `50`                        | Limite de entrada                      |
-| Backend `FILE_RETENTION_HOURS`         | `24`                        | Prazo dos resultados                   |
-| Backend `FFMPEG_PATH` / `FFPROBE_PATH` | `ffmpeg` / `ffprobe`        | Executáveis                            |
-| Frontend `VITE_BACKEND_URL`            | `http://127.0.0.1:3333`     | Destino do proxy de desenvolvimento    |
-| Frontend `VITE_API_URL`                | vazio                       | URL pública da API, se não usar proxy  |
+## Possíveis Melhorias Futuras
 
-`VITE_*` é incorporado ao JavaScript do navegador: nunca coloque segredos nessas variáveis. O comando `npm run preview` serve apenas o build estático e não substitui a configuração de proxy/API de uma publicação. Para apresentar hoje, use os dois servidores de desenvolvimento.
+- **Conversão no navegador:** processar formatos compatíveis diretamente no dispositivo, sem enviar arquivos ao backend.
+- **Interface:** simplificar o fluxo de conversão e melhorar a experiência de uso.
+- **Compatibilidade:** ampliar gradualmente os formatos locais suportados.
+- **Histórico opcional:** permitir contas para sincronizar metadados das operações, sem armazenar os arquivos convertidos na nuvem.
+- **Testes:** expandir a cobertura automatizada e a validação em diferentes navegadores.
 
-## Roteiro de apresentação
+O desenvolvimento pode ser acompanhado pelas [Issues do projeto](https://github.com/NicolasHMartinsP/Dropzone/issues).
 
-1. Mostre a landing e a navegação com React Router DOM.
-2. No conversor, envie `examples/imagem-exemplo.png` e escolha WebP.
-3. Salve o resultado e abra o histórico; teste busca, filtros e novo download.
-4. Faça um download com link direto de uma mídia pública.
-5. Abra o Swagger e execute `GET /api/health` e `GET /api/history`.
-6. Mostre as pastas separadas, CSS Modules, services e o catálogo de componentes.
-7. Apresente o quadro do GitHub após vinculá-lo ao repositório correto.
-
-## Referências principais
-
-- [Vite](https://vite.dev/guide/)
-- [React Router](https://reactrouter.com/start/declarative/installation)
-- [Sequelize 6](https://sequelize.org/docs/v6/getting-started/)
-- [Sharp](https://sharp.pixelplumbing.com/api-output/)
-- [Swagger: upload de arquivos](https://swagger.io/docs/specification/v3_0/describing-request-body/file-upload/)
-- [GitHub Projects: quadro](https://docs.github.com/pt/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/customizing-the-board-layout)
+---
