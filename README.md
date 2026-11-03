@@ -36,7 +36,6 @@ A aplicação é executada localmente, sem depender de hospedagem ou serviços d
 - **Node.js:** ambiente de execução JavaScript.
 - **Express 5:** implementação da API REST.
 - **Sequelize:** ORM para persistência de dados.
-- **SQLite:** banco de dados local.
 - **Sharp:** processamento e conversão de imagens.
 - **FFmpeg / FFprobe:** conversão e análise de áudio e vídeo.
 - **Multer:** recebimento e validação inicial de uploads.
