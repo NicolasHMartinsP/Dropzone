@@ -6,13 +6,13 @@ Aplicação acadêmica para baixar mídias por link direto, converter arquivos e
 
 O DropZone passa a ter duas ferramentas públicas, sem cadastro, e uma conta opcional:
 
-| Funcionalidade    | Onde roda                                            | Situação                                                                 |
-| ----------------- | ---------------------------------------------------- | ------------------------------------------------------------------------ |
-| Downloads por URL | Backend como intermediário, com proteção contra SSRF | Implementado; validação com site externo real pendente (#4)              |
-| Conversão local   | **Navegador** — o arquivo não é enviado ao backend   | **Planejado** (#14, #15). Hoje a conversão ainda é feita no servidor     |
-| Conta e histórico | Backend guarda só metadados, por usuário             | **Planejado** (#13, #16, #17). Hoje o histórico é global e não tem login |
+| Funcionalidade    | Onde roda                                            | Situação                                                                                                                                                                                                                                               |
+| ----------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Downloads por URL | Backend como intermediário, com proteção contra SSRF | Implementado; validação com site externo real pendente ([#4](https://github.com/NicolasHMartinsP/Dropzone/issues/4))                                                                                                                                   |
+| Conversão local   | **Navegador** — o arquivo não é enviado ao backend   | **Planejado** ([#14](https://github.com/NicolasHMartinsP/Dropzone/issues/14), [#15](https://github.com/NicolasHMartinsP/Dropzone/issues/15)). Hoje a conversão ainda é feita no servidor                                                               |
+| Conta e histórico | Backend guarda só metadados, por usuário             | **Planejado** ([#13](https://github.com/NicolasHMartinsP/Dropzone/issues/13), [#16](https://github.com/NicolasHMartinsP/Dropzone/issues/16), [#17](https://github.com/NicolasHMartinsP/Dropzone/issues/17)). Hoje o histórico é global e não tem login |
 
-As seções abaixo descrevem a **implementação atual**, anterior a essa revisão. A conversão no servidor (Sharp/FFmpeg) continua no código até a conversão local estar pronta e a remoção ser analisada (#18). Planejamento e ordem das tarefas: [github-projects.md](frontend/docs/github-projects.md).
+As seções abaixo descrevem a **implementação atual**, anterior a essa revisão. A conversão no servidor (Sharp/FFmpeg) continua no código até a conversão local estar pronta e a remoção ser analisada ([#18](https://github.com/NicolasHMartinsP/Dropzone/issues/18)). Planejamento e ordem das tarefas: [github-projects.md](frontend/docs/github-projects.md).
 
 ## Iniciar em poucos minutos
 
@@ -175,7 +175,7 @@ Use os `.env.example` como referência. Não versione arquivos `.env`, banco, re
 6. Mostre as pastas separadas, CSS Modules, services e o catálogo de componentes.
 7. Apresente o quadro do GitHub Projects.
 
-Este roteiro descreve a implementação atual e será revisado na DZ-11 (#11) após a conversão local.
+Este roteiro descreve a implementação atual e será revisado na DZ-11 ([#11](https://github.com/NicolasHMartinsP/Dropzone/issues/11)) após a conversão local.
 
 ## Referências principais
 

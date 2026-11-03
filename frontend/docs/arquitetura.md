@@ -9,7 +9,7 @@
 | Conta (opcional)      | Telas de cadastro/login; ferramentas funcionam sem conta        | Usuários, senha com hash, sessão em cookie `HttpOnly`   |
 | Histórico (opcional)  | Envia apenas metadados quando há sessão                         | Guarda metadados por usuário; nunca arquivos            |
 
-Formatos previstos para a conversão local no MVP: imagens PNG, JPG e WebP (saída WebP depende do navegador). Áudio para WAV é opcional. AVIF como saída, MP3/OGG e vídeo ficam como limitação conhecida; não haverá alternativa automática no servidor. Banco: SQLite + Sequelize continua; PostgreSQL não é necessário no MVP (#12).
+Formatos previstos para a conversão local no MVP: imagens PNG, JPG e WebP (saída WebP depende do navegador). Áudio para WAV é opcional. AVIF como saída, MP3/OGG e vídeo ficam como limitação conhecida; não haverá alternativa automática no servidor. Banco: SQLite + Sequelize continua; PostgreSQL não é necessário no MVP ([#12](https://github.com/NicolasHMartinsP/Dropzone/issues/12)).
 
 O restante deste documento descreve a **implementação atual**, em que a conversão ainda acontece no servidor.
 

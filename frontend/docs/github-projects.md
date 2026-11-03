@@ -26,11 +26,11 @@ Enviar código ao GitHub **não** conclui uma tarefa. A Issue só vai para **Con
 
 ## Ordem de desenvolvimento
 
-**Entrega 1 — Ferramentas públicas:** DZ-04 (#4) downloads por URL → DZ-13 (#14) conversão local → DZ-14 (#15) interface do conversor → DZ-03 (#3) navegação e responsividade.
+**Entrega 1 — Ferramentas públicas:** DZ-04 ([#4](https://github.com/NicolasHMartinsP/Dropzone/issues/4)) downloads por URL → DZ-13 ([#14](https://github.com/NicolasHMartinsP/Dropzone/issues/14)) conversão local → DZ-14 ([#15](https://github.com/NicolasHMartinsP/Dropzone/issues/15)) interface do conversor → DZ-03 ([#3](https://github.com/NicolasHMartinsP/Dropzone/issues/3)) navegação e responsividade.
 
-**Entrega 2 — Histórico opcional:** DZ-12 (#13) modelagem → DZ-15 (#16) autenticação → DZ-16 (#17) histórico sincronizado.
+**Entrega 2 — Histórico opcional:** DZ-12 ([#13](https://github.com/NicolasHMartinsP/Dropzone/issues/13)) modelagem → DZ-15 ([#16](https://github.com/NicolasHMartinsP/Dropzone/issues/16)) autenticação → DZ-16 ([#17](https://github.com/NicolasHMartinsP/Dropzone/issues/17)) histórico sincronizado.
 
-**Entrega 3 — Consolidação:** DZ-17 (#18) testes e documentação → DZ-11 (#11) roteiro da apresentação.
+**Entrega 3 — Consolidação:** DZ-17 ([#18](https://github.com/NicolasHMartinsP/Dropzone/issues/18)) testes e documentação → DZ-11 ([#11](https://github.com/NicolasHMartinsP/Dropzone/issues/11)) roteiro da apresentação.
 
 O login nunca bloqueia as ferramentas públicas: a Entrega 1 não depende da Entrega 2.
 
