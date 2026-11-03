@@ -1,48 +1,34 @@
-name: Tarefa de desenvolvimento
-description: Registrar objetivo, responsabilidade e critérios de conclusão.
-title: '[Setor] Descrever a tarefa'
+
+name: Tarefa
+description: Registrar uma melhoria, correção ou funcionalidade.
+title: ""
 body:
   - type: dropdown
-    id: setor
+    id: tipo
     attributes:
-      label: Setor
+      label: Tipo
       options:
-        - Frontend
-        - Backend
+        - Funcionalidade
+        - Correção
+        - Refatoração
         - Documentação
         - Testes
-        - Organização
     validations:
       required: true
+
   - type: textarea
-    id: objetivo
+    id: descricao
     attributes:
-      label: Objetivo
-      description: Qual comportamento deve existir quando a tarefa terminar?
+      label: Descrição
+      placeholder: O que precisa ser feito?
     validations:
       required: true
-  - type: input
-    id: responsavel
-    attributes:
-      label: Responsável
-      description: Informe o usuário do GitHub e selecione-o também em Assignees.
-      placeholder: '@usuario'
-    validations:
-      required: true
+
   - type: textarea
     id: criterios
     attributes:
-      label: Critérios de aceite
-      description: Use critérios observáveis e verificáveis.
+      label: Critérios de conclusão
       value: |
-        - [ ] Comportamento principal implementado.
-        - [ ] Estados de erro e carregamento tratados.
-        - [ ] Validação relevante concluída.
-        - [ ] Documentação atualizada.
-    validations:
-      required: true
-  - type: textarea
-    id: evidencia
-    attributes:
-      label: Evidência de validação
-      description: Descreva teste realizado, resultado e eventuais pendências antes de mover para Concluído.
+        - [ ] Implementado
+        - [ ] Testado
+        - [ ] Documentado, se necessário
