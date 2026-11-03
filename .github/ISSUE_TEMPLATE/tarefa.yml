@@ -1,7 +1,6 @@
 
 name: Tarefa
 description: Registrar uma melhoria, correção ou funcionalidade.
-title: ""
 body:
   - type: dropdown
     id: tipo
