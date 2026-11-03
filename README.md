@@ -1,60 +1,16 @@
 # DropZone
 
-Aplicação acadêmica para baixar mídias por link direto, converter arquivos e consultar o histórico. Interface em português, com a paleta enviada: verde neon, verde escuro, azul marinho, azul e roxo.
+Plataforma para baixar mídias por link direto e converter arquivos.
 
-## Iniciar em poucos minutos
-
-Pré-requisito: Node.js **22.12 ou superior** com npm. Os dois servidores precisam ficar abertos em terminais separados.
-
-**Terminal 1 — API:**
-
-```bash
-cd backend
-npm ci
-npm run dev
-```
-
-**Terminal 2 — interface:**
-
-```bash
-cd frontend
-npm ci
-npm run dev
-```
-
-Abra:
-
-| Endereço local                   | O que abre                             |
-| -------------------------------- | -------------------------------------- |
-| http://localhost:5173            | Aplicação React                        |
-| http://localhost:3333/api-docs   | Swagger com “Try it out”               |
-| http://localhost:3333/api/health | Situação da API e formatos disponíveis |
-
-Não é necessário configurar banco, criar `.env` ou instalar um servidor PostgreSQL. O SQLite é criado em `backend/storage/dropzone.sqlite`. As migrações rodam automaticamente na inicialização. Você também pode executá-las com `npm run db:migrate` dentro de `backend`.
-
-### Áudio e vídeo
-
-Imagens funcionam após `npm ci`. Para áudio e vídeo, instale **FFmpeg e FFprobe** no computador e deixe ambos no PATH. Consulte o [download oficial do FFmpeg](https://ffmpeg.org/download.html).
-
-Confira em um terminal:
-
-```bash
-ffmpeg -version
-ffprobe -version
-```
-
-Depois reinicie o backend. Se precisar usar caminhos específicos, copie `backend/.env.example` para `backend/.env` e ajuste `FFMPEG_PATH` e `FFPROBE_PATH`. Caminhos com espaços podem ser colocados entre aspas no `.env`. Sem os programas, a interface informa a limitação e mantém as conversões de imagem disponíveis.
 
 ## O que está implementado
 
-| Tela                | Rota         | Comportamento                                                     |
-| ------------------- | ------------ | ----------------------------------------------------------------- |
-| Landing page / home | `/`          | Apresentação, ferramentas, passos e dúvidas frequentes            |
-| Downloads           | `/downloads` | Analisa um link direto e prepara o arquivo no formato escolhido   |
-| Conversor           | `/conversor` | Recebe um arquivo por seleção ou arraste e converte seu conteúdo  |
-| Histórico           | `/historico` | Busca, filtros, paginação, estatísticas, novo download e exclusão |
-
-O enunciado fala em três telas, mas enumera quatro. Todas as quatro foram incluídas. Não há cadastro: este MVP é destinado a uso local e individual.
+| Tela                | Rota         |
+| ------------------- | ------------ |
+| Landing page / home | `/`          |
+| Downloads           | `/downloads` | 
+| Conversor           | `/conversor` |
+| Histórico           | `/historico` |
 
 ### Formatos e limites
 
