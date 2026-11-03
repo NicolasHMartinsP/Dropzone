@@ -14,10 +14,8 @@ export const env = {
   port: positiveNumber('PORT', 3333),
   host: process.env.HOST || '127.0.0.1',
   clientOrigin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
-  dbStorage:
-    process.env.DB_STORAGE === ':memory:'
-      ? ':memory:'
-      : path.resolve(backendRoot, process.env.DB_STORAGE || 'storage/dropzone.sqlite'),
+  databaseUrl:
+    process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/dropzone',
   storageDir: path.resolve(process.env.STORAGE_DIR || path.join(backendRoot, 'storage')),
   maxFileBytes: positiveNumber('MAX_FILE_SIZE_MB', 50) * 1024 * 1024,
   maxOutputBytes: 200 * 1024 * 1024,

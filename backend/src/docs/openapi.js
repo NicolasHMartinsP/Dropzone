@@ -19,7 +19,7 @@ export const openapi = {
     title: 'DropZone API',
     version: '1.0.0',
     description:
-      'API acadêmica de downloads por link direto, conversão de imagens/áudio/vídeo e histórico persistido com Sequelize + SQLite. Sem autenticação: uso local e individual. Arquivos gerados expiram; metadados permanecem. Links de páginas, playlists, PDFs e documentos Office não são suportados.',
+      'API acadêmica de downloads por link direto, conversão de imagens/áudio/vídeo e histórico persistido com Sequelize + PostgreSQL. Sem autenticação: uso local e individual. Arquivos gerados expiram; metadados permanecem. Links de páginas, playlists, PDFs e documentos Office não são suportados.',
   },
   servers: [
     { url: '/', description: 'Servidor atual (também funciona pelo proxy Vite)' },

@@ -9,7 +9,6 @@ import SwaggerParser from '@apidevtools/swagger-parser';
 import { ipKeyGenerator } from 'express-rate-limit';
 
 const testDirectory = await mkdtemp(path.join(os.tmpdir(), 'dropzone-tests-'));
-process.env.DB_STORAGE = ':memory:';
 process.env.STORAGE_DIR = testDirectory;
 process.env.MAX_FILE_SIZE_MB = '1';
 
@@ -31,6 +30,7 @@ const { parsePublicUrl, resolvePublicUrl } = await import(
 );
 
 let png;
+let existingJobs = [];
 beforeEach(() => {
   // Cada cenário começa com seu próprio limite; a configuração real continua ativa.
   for (const address of ['127.0.0.1', '::ffff:127.0.0.1']) {
@@ -42,6 +42,8 @@ before(async () => {
   await migrate();
   // Executar duas vezes verifica que a migração é idempotente.
   await migrate();
+  existingJobs = await Job.findAll({ raw: true });
+  await Job.destroy({ where: {} });
   png = await sharp({
     create: { width: 64, height: 48, channels: 4, background: '#1efd4a' },
   })
@@ -49,6 +51,8 @@ before(async () => {
     .toBuffer();
 });
 after(async () => {
+  await Job.destroy({ where: {} });
+  if (existingJobs.length) await Job.bulkCreate(existingJobs);
   await sequelize.close();
   await rm(testDirectory, { recursive: true, force: true });
 });

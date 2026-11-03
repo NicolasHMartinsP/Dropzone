@@ -35,6 +35,7 @@ export function serializeJob(instance) {
     job.status === 'completed' && !!filePath && new Date(job.expiresAt) > new Date();
   return {
     ...publicJob,
+    sizeBytes: Number(job.sizeBytes || 0),
     downloadable,
     downloadUrl: downloadable ? `/api/files/${job.id}` : null,
   };

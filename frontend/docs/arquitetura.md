@@ -2,13 +2,13 @@
 
 ## Prioridades aprovadas (2026-11-03)
 
-1. Migrar SQLite para **PostgreSQL + Sequelize**, requisito obrigatório da faculdade (#12).
+1. Persistência com **PostgreSQL + Sequelize**, requisito obrigatório da faculdade (#12).
 2. Baixar **MP4/MP3 por links compartilhados** de fontes públicas suportadas, além dos links diretos (#4).
 3. Validar conversões de imagens PNG/JPG/WebP, áudio MP3/WAV/OGG, vídeo MP4/WebM e extração MP4 → MP3 (#14).
 4. Simplificar a interface: #171219, #355834 e #D33F49, texto neutro legível, grão discreto, espaçamento consistente e animações curtas (#15).
 5. Conta e histórico privado de metadados ficam depois das ferramentas públicas (#13, #16 e #17).
 
-**Situação real:** o código ainda usa SQLite, aceita links diretos e converte no backend local com Sharp/FFmpeg. PostgreSQL e links compartilhados são trabalho pendente; não foram implementados por esta atualização de planejamento.
+**Situação real:** o código usa PostgreSQL + Sequelize, aceita links diretos e converte no backend local com Sharp/FFmpeg. Links compartilhados são trabalho pendente.
 Para entregar áudio/vídeo sem duplicar motores, o backend existente será reaproveitado. Conversão no navegador fica como melhoria posterior.
 O adaptador de compartilhamento deve avaliar yt-dlp; suporte por fonte precisa ser testado e datado, sem promessa de compatibilidade universal.
 PDF/Office, playlists/lotes e login em plataformas não fazem parte desta primeira entrega.
@@ -17,9 +17,9 @@ O [Project](https://github.com/users/NicolasHMartinsP/projects/1) é a fonte ofi
 
 ## Implementação atual
 
-Os fluxos abaixo descrevem o código existente, anterior às entregas #12, #4, #14 e #15. Atualizá-los junto com cada implementação.
+Os fluxos abaixo descrevem o código existente. Atualizá-los junto com cada implementação.
 
-O projeto tem duas aplicações independentes. O frontend conhece a API por HTTP. O backend conhece arquivos temporários, ferramentas de conversão e banco. O navegador não acessa Sequelize diretamente.
+O projeto tem duas aplicações independentes. O frontend conhece a API por HTTP. O backend conhece arquivos temporários, ferramentas de conversão e banco PostgreSQL. O navegador não acessa Sequelize diretamente.
 
 ## Exemplo: converter PNG para WebP
 
@@ -30,7 +30,7 @@ O projeto tem duas aplicações independentes. O frontend conhece a API por HTTP
 5. `conversion.controller.js` verifica os campos da requisição e chama o service.
 6. `job.service.js` identifica o conteúdo, cria um Job em processamento e coordena o resultado.
 7. `conversion.service.js` transforma os bytes com Sharp ou FFmpeg.
-8. O Job é atualizado pelo Sequelize. O arquivo de entrada é removido em `finally`.
+8. O Job é atualizado pelo Sequelize no PostgreSQL. O arquivo de entrada é removido em `finally`.
 9. A API retorna metadados públicos e `downloadUrl`, sem expor caminhos do servidor.
 10. `TaskResult` apresenta a conclusão. Ao clicar em salvar, `saveFile` recebe o binário e solicita o download ao navegador.
 
@@ -55,7 +55,7 @@ O termo “MCP” do requisito foi mantido como ponto a confirmar: aqui a arquit
 | `job.service.js`        | Coordenar jobs, fontes temporárias, resultados e retenção             |
 | `history.service.js`    | Consultar, filtrar, paginar e excluir registros/resultados            |
 
-Não há fila distribuída. As operações aguardam o processamento na própria requisição HTTP. O limite em memória permite dois processamentos simultâneos. Fontes analisadas também ficam indexadas em memória e são perdidas em uma reinicialização; o histórico e os resultados concluídos permanecem no disco.
+Não há fila distribuída. As operações aguardam o processamento na própria requisição HTTP. O limite em memória permite dois processamentos simultâneos. Fontes analisadas também ficam indexadas em memória e são perdidas em uma reinicialização; o histórico no PostgreSQL e os resultados concluídos permanecem no disco.
 
 ## Modelo Job
 
@@ -77,6 +77,6 @@ Erros de validação que acontecem antes de criar um Job não aparecem no histó
 
 ## Decisões de escopo
 
-SQLite foi escolhido para execução simples na faculdade. Migrações versionadas deixam mudanças futuras explícitas. Ao migrar para PostgreSQL, será necessário trocar a configuração/driver, revisar tipos/migrações e retestar as consultas.
+PostgreSQL é utilizado com Sequelize e migrações versionadas que deixam mudanças explícitas.
 
 O backend usa somente caminhos gerados por UUID, valida conteúdo e tamanho, bloqueia IPs não públicos, fixa o IP validado na conexão e revalida redirecionamentos. FFmpeg recebe argumentos sem shell e apenas contêineres de mídia são aceitos; playlists são rejeitadas. Isso não transforma o MVP em um serviço público pronto para internet. Autenticação, isolamento por usuário, filas, isolamento do processo de mídia e armazenamento externo exigem uma evolução específica.

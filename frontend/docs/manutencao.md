@@ -65,4 +65,4 @@ O verde neon destaca a ação principal, o roxo destaca seleção e o azul marin
 | Arquivo expirado no histórico   | Repita a operação; os metadados não guardam os bytes indefinidamente                                                          |
 | Upload de imagem recusado       | Confira conteúdo real, limite de 50 MB/20 MP e ausência de animação                                                           |
 | Porta 5173 ocupada              | Feche a instância anterior ou ajuste Vite e `CLIENT_ORIGIN` juntos                                                            |
-| `npm ci` falha em pacote nativo | Confira Node compatível; o driver SQLite pode precisar de ferramentas de compilação se não houver binário para sua plataforma |
+| `npm ci` falha em pacote nativo | Confira Node compatível e conexão com a internet para baixar os binários pré-compilados (ex.: Sharp)                          |

@@ -16,7 +16,7 @@
 | CSS separado                    | CSS Module por página/componente; nenhum CSS monolítico                                   |
 | Estilos globais                 | `frontend/src/styles/global.css` com tokens e paleta                                      |
 | React Router DOM                | `BrowserRouter`, `Routes`, `Route`, `Link`, `NavLink` e `Outlet`                          |
-| Sequelize                       | Atual: `Job`/SQLite; obrigatório: PostgreSQL, pendente na #12                                      |
+| Sequelize                       | `Job` com PostgreSQL (`pg`) e migração versionada (#12)                                   |
 | Swagger para documentar/testar  | `/api-docs`, `/api-docs.json` e `backend/src/docs/openapi.js`                             |
 | Documentação no frontend        | `frontend/docs` com telas, componentes, testes e manutenção                               |
 | GitHub Projects Board           | Quadro real: https://github.com/users/NicolasHMartinsP/projects/1        |
@@ -28,7 +28,7 @@
 
 | Entrega | Issue | Situação |
 | --- | --- | --- |
-| PostgreSQL obrigatório | #12 | Planejado |
+| PostgreSQL obrigatório | #12 | Implementado |
 | MP4/MP3 por link compartilhado de fontes suportadas | #4 | Planejado; só link direto existe |
 | Conversões principais de imagem, áudio e vídeo | #14 | Motor existente; validação da matriz pendente |
 | Interface minimalista | #15 | Planejado |

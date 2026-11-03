@@ -4,7 +4,7 @@ Data: 03/11/2026. Ambiente verificado: Linux, Node 24.22.1, npm 11.9.0, FFmpeg e
 
 ## Automação da API
 
-Execute `npm test` na pasta `backend`. A suíte tem 12 cenários, usando banco em memória e arquivos temporários. Resultado observado: **12 passaram; nenhum falhou ou foi ignorado** no ambiente acima.
+Execute `npm test` na pasta `backend`. A suíte tem 12 cenários, usando PostgreSQL e arquivos temporários. Resultado observado: **12 passaram; nenhum falhou ou foi ignorado** no ambiente acima.
 
 | Cenário                 | O que verifica                                                                      |
 | ----------------------- | ----------------------------------------------------------------------------------- |
