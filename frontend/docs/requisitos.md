@@ -1,5 +1,21 @@
 # Rastreabilidade dos requisitos
 
+## Escopo revisado (2026-11-03)
+
+| Requisito                                                     | Situação                              | Issue    |
+| ------------------------------------------------------------- | ------------------------------------- | -------- |
+| Download de mídia por URL pública HTTP/HTTPS, sem cadastro    | Implementado; validação real pendente | #4       |
+| Proteção contra SSRF e limites de tamanho/tempo               | Implementado                          | #4       |
+| Conversão local no navegador, sem envio do arquivo ao backend | Planejado                             | #14, #15 |
+| Exibir só formatos de saída realmente suportados              | Planejado                             | #14, #15 |
+| Conta opcional (cadastro, login, logout, sessão)              | Planejado                             | #13, #16 |
+| Histórico privado com metadados por usuário                   | Planejado                             | #13, #17 |
+| Testes, revisão de segurança e documentação coerente          | Planejado                             | #18      |
+
+**Fora do escopo:** conversão obrigatória no servidor, login obrigatório, lote, filas/Redis, microsserviços, armazenamento permanente de arquivos, compartilhamento, monetização, painel administrativo, integrações com Drive/Dropbox, apps nativos. Login com Google/GitHub pode ser avaliado depois do MVP.
+
+## Requisitos originais
+
 | Requisito                       | Implementação / evidência                                                                 |
 | ------------------------------- | ----------------------------------------------------------------------------------------- |
 | React e Vite                    | `frontend/package.json`, `src/main.jsx`, `vite.config.js`; build executável               |

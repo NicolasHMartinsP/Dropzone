@@ -1,6 +1,6 @@
 name: Tarefa de desenvolvimento
 description: Registrar objetivo, responsabilidade e critérios de conclusão.
-title: '[Setor] Descrever a tarefa'
+title: '[DZ-NN] '
 body:
   - type: dropdown
     id: setor

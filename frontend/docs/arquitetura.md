@@ -1,5 +1,20 @@
 # Arquitetura e fluxo dos dados
 
+## Arquitetura-alvo (aprovada em 2026-11-03, ainda não implementada)
+
+| Responsabilidade      | Frontend                                                        | Backend                                                 |
+| --------------------- | --------------------------------------------------------------- | ------------------------------------------------------- |
+| Conversão de arquivos | Lê, converte e oferece o resultado localmente (Canvas/Web APIs) | **Não recebe** o conteúdo dos arquivos                  |
+| Download por URL      | Valida o formato da URL e exibe estados                         | Valida URL/DNS, aplica limites e repassa a mídia (SSRF) |
+| Conta (opcional)      | Telas de cadastro/login; ferramentas funcionam sem conta        | Usuários, senha com hash, sessão em cookie `HttpOnly`   |
+| Histórico (opcional)  | Envia apenas metadados quando há sessão                         | Guarda metadados por usuário; nunca arquivos            |
+
+Formatos previstos para a conversão local no MVP: imagens PNG, JPG e WebP (saída WebP depende do navegador). Áudio para WAV é opcional. AVIF como saída, MP3/OGG e vídeo ficam como limitação conhecida; não haverá alternativa automática no servidor. Banco: SQLite + Sequelize continua; PostgreSQL não é necessário no MVP (#12).
+
+O restante deste documento descreve a **implementação atual**, em que a conversão ainda acontece no servidor.
+
+## Implementação atual
+
 O projeto tem duas aplicações independentes. O frontend conhece a API por HTTP. O backend conhece arquivos temporários, ferramentas de conversão e banco. O navegador não acessa Sequelize diretamente.
 
 ## Exemplo: converter PNG para WebP

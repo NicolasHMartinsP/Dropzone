@@ -1,7 +1,7 @@
 # Como contribuir
 
 1. Registre uma Issue com objetivo, responsável e critérios de aceite.
-2. Mova a Issue de **A fazer** para **Em andamento** ao iniciar.
+2. Mova a Issue de **A fazer** para **Em andamento** ao iniciar e crie a branch a partir de `develop`: `feat/<assunto>` ou `fix/<assunto>`. Abra o Pull Request para `develop`; `main` recebe apenas entregas estáveis.
 3. Mantenha o escopo da alteração pequeno e use nomes que expliquem a intenção.
 4. Respeite pages/components/services no frontend e routes/controllers/services/models no backend.
 5. Atualize a documentação da funcionalidade junto com o código.

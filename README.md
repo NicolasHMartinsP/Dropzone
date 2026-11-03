@@ -2,6 +2,18 @@
 
 Aplicação acadêmica para baixar mídias por link direto, converter arquivos e consultar o histórico. Interface em português, com a paleta enviada: verde neon, verde escuro, azul marinho, azul e roxo.
 
+## Escopo atual (revisado em 2026-11-03)
+
+O DropZone passa a ter duas ferramentas públicas, sem cadastro, e uma conta opcional:
+
+| Funcionalidade    | Onde roda                                            | Situação                                                                 |
+| ----------------- | ---------------------------------------------------- | ------------------------------------------------------------------------ |
+| Downloads por URL | Backend como intermediário, com proteção contra SSRF | Implementado; validação com site externo real pendente (#4)              |
+| Conversão local   | **Navegador** — o arquivo não é enviado ao backend   | **Planejado** (#14, #15). Hoje a conversão ainda é feita no servidor     |
+| Conta e histórico | Backend guarda só metadados, por usuário             | **Planejado** (#13, #16, #17). Hoje o histórico é global e não tem login |
+
+As seções abaixo descrevem a **implementação atual**, anterior a essa revisão. A conversão no servidor (Sharp/FFmpeg) continua no código até a conversão local estar pronta e a remoção ser analisada (#18). Planejamento e ordem das tarefas: [github-projects.md](frontend/docs/github-projects.md).
+
 ## Iniciar em poucos minutos
 
 Pré-requisito: Node.js **22.12 ou superior** com npm. Os dois servidores precisam ficar abertos em terminais separados.
@@ -125,12 +137,10 @@ npx prettier@3.6.2 --write frontend/src backend/src backend/tests
 
 ## GitHub Projects e documentação
 
-O quadro deve ter exatamente **A fazer**, **Em andamento**, **Testes** e **Concluído**, com cartões vinculados a Issues, responsáveis e critérios de aceite.
+O quadro **DropZone | Desenvolvimento** tem exatamente **A fazer**, **Em andamento**, **Testes** e **Concluído**, com cartões vinculados às Issues deste repositório.
 
-Os arquivos abaixo estão preparados. O quadro e as Issues **ainda não foram criados na conta**, pois o repositório de destino não foi informado nem encontrado entre os repositórios conectados.
-
-- [github-projects.md](frontend/docs/github-projects.md): configuração das colunas e fluxo de trabalho.
-- [backlog.json](frontend/docs/backlog.json): tarefas com descrição, situação e critérios de aceite.
+- [github-projects.md](frontend/docs/github-projects.md): link do quadro, campos, ordem das entregas e fluxo de trabalho.
+- [backlog.json](frontend/docs/backlog.json): resumo das tarefas e de sua situação.
 - `.github/ISSUE_TEMPLATE/tarefa.yml`: formulário para novas tarefas no repositório.
 - [telas.md](frontend/docs/telas.md): telas e situação.
 - [componentes.md](frontend/docs/componentes.md): catálogo e responsabilidades.
@@ -163,7 +173,9 @@ Use os `.env.example` como referência. Não versione arquivos `.env`, banco, re
 4. Faça um download com link direto de uma mídia pública.
 5. Abra o Swagger e execute `GET /api/health` e `GET /api/history`.
 6. Mostre as pastas separadas, CSS Modules, services e o catálogo de componentes.
-7. Apresente o quadro do GitHub após vinculá-lo ao repositório correto.
+7. Apresente o quadro do GitHub Projects.
+
+Este roteiro descreve a implementação atual e será revisado na DZ-11 (#11) após a conversão local.
 
 ## Referências principais
 

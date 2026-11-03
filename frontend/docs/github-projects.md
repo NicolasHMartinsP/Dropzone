@@ -1,50 +1,51 @@
 # GitHub Projects — desenvolvimento
 
-O repositório de destino ainda não foi identificado. Nenhum quadro ou Issue foi criado externamente. O backlog está em `backlog.json` e o formulário de novas tarefas em `.github/ISSUE_TEMPLATE/tarefa.yml`.
+Quadro: **DropZone | Desenvolvimento** — https://github.com/users/NicolasHMartinsP/projects/1
 
-## Criar e vincular o quadro
+Repositório vinculado: [NicolasHMartinsP/Dropzone](https://github.com/NicolasHMartinsP/Dropzone). O backlog resumido também está em [backlog.json](backlog.json).
 
-1. Abra o repositório correto no GitHub e acesse **Projects**.
-2. Crie um projeto, escolhendo o layout **Board**. Caso o fluxo crie o projeto na conta primeiro, vincule-o ao repositório em seguida.
-3. Use o nome **DropZone — Desenvolvimento**.
-4. Edite o campo **Status** para conter, nesta ordem, exatamente as opções abaixo.
-5. Configure a visão Board para usar **Status** como campo das colunas e salve a visão.
-6. Mostre os campos de responsável e rótulos nos cartões.
+## Colunas (campo Status)
 
-| Coluna       | Significado                                  | Quando mover para ela                          |
-| ------------ | -------------------------------------------- | ---------------------------------------------- |
-| A fazer      | Trabalho planejado que não começou           | Tarefa descrita e critérios definidos          |
-| Em andamento | Implementação ativa                          | Responsável assumiu a atividade                |
-| Testes       | Implementação pronta, aguardando verificação | Código e documentação disponíveis para revisão |
-| Concluído    | Critérios atendidos e validação realizada    | Evidência de teste registrada na Issue         |
+| Coluna       | Significado                                  | Quando mover para ela                        |
+| ------------ | -------------------------------------------- | -------------------------------------------- |
+| A fazer      | Trabalho planejado que não começou           | Tarefa descrita e critérios definidos        |
+| Em andamento | Implementação ativa                          | Branch criada a partir de `develop`          |
+| Testes       | Implementação pronta, aguardando verificação | PR aberto para `develop` e testes executados |
+| Concluído    | Critérios atendidos e validação realizada    | Evidência registrada na Issue e PR integrado |
 
-## Registrar tarefas
+Enviar código ao GitHub **não** conclui uma tarefa. A Issue só vai para **Concluído** depois de conferir cada critério de aceite.
 
-Para cada entrada do backlog, crie uma Issue com título, descrição e lista de critérios. Defina o responsável no campo **Assignees**; esse nome não foi presumido neste projeto. Adicione a Issue ao Project e defina seu Status.
+## Campos
 
-Modelo:
+| Campo       | Opções                                                                                   |
+| ----------- | ---------------------------------------------------------------------------------------- |
+| Prioridade  | Alta, Média, Baixa                                                                       |
+| Área        | Frontend, Backend, Banco de dados, Segurança, Testes, Documentação (área principal)      |
+| Entrega     | Base existente, Downloads, Conversor local, Histórico opcional, Qualidade e documentação |
+| Responsável | Campo nativo **Assignees**                                                               |
 
-```markdown
-## Objetivo
+## Ordem de desenvolvimento
 
-Implementar a navegação entre as quatro telas do sistema.
+**Entrega 1 — Ferramentas públicas:** DZ-04 (#4) downloads por URL → DZ-13 (#14) conversão local → DZ-14 (#15) interface do conversor → DZ-03 (#3) navegação e responsividade.
 
-## Responsável
+**Entrega 2 — Histórico opcional:** DZ-12 (#13) modelagem → DZ-15 (#16) autenticação → DZ-16 (#17) histórico sincronizado.
 
-Definido no campo Assignees desta Issue.
+**Entrega 3 — Consolidação:** DZ-17 (#18) testes e documentação → DZ-11 (#11) roteiro da apresentação.
 
-## Critérios de aceite
+O login nunca bloqueia as ferramentas públicas: a Entrega 1 não depende da Entrega 2.
 
-- [ ] A landing, downloads, conversor e histórico têm rotas próprias.
-- [ ] Os links internos usam React Router DOM.
-- [ ] A rota ativa aparece no menu.
-- [ ] O menu funciona em desktop e celular.
+## Fluxo de trabalho
 
-## Evidência de validação
+1. Escolher **uma** Issue em **A fazer**, seguindo a ordem acima.
+2. Movê-la para **Em andamento** e atribuí-la em Assignees.
+3. Criar a branch a partir de `develop`: `feat/<assunto>` para funcionalidades, `fix/<assunto>` para correções.
+4. Implementar, executar os testes e atualizar a documentação relevante.
+5. Abrir Pull Request para `develop` citando a Issue (`Refs #N`).
+6. Revisar o código e mover a Issue para **Testes**.
+7. Validar os critérios de aceite e registrar a evidência na Issue.
+8. Mover para **Concluído** e fechar a Issue.
+9. Integrar `develop` à `main` quando uma entrega estiver estável.
 
-Descrever o cenário e o resultado observado; anexar evidência quando útil.
-```
+## Novas tarefas
 
-Não invente uma cronologia de trabalho: o backlog informa o estado atual conhecido. Itens com verificação manual pendente permanecem em **Testes**, mesmo quando os testes de API passaram. Tarefas opcionais futuras só devem entrar no quadro se forem aprovadas como escopo.
-
-Consulte a [documentação oficial do quadro](https://docs.github.com/pt/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/customizing-the-board-layout) para os nomes atuais dos controles da interface.
+Use o formulário `.github/ISSUE_TEMPLATE/tarefa.yml` e substitua o título por `[DZ-NN] Verbo + objeto`. Crie Issues apenas para trabalho dentro do escopo aprovado (ver [requisitos.md](requisitos.md)).
