@@ -1,0 +1,153 @@
+{
+  "project": "DropZone — Desenvolvimento",
+  "repository": null,
+  "externalBoardCreated": false,
+  "columns": ["A fazer", "Em andamento", "Testes", "Concluído"],
+  "tasks": [
+    {
+      "id": "DZ-01",
+      "title": "Separar frontend e backend e configurar o ambiente",
+      "description": "Manter duas aplicações com dependências, locks e servidores próprios.",
+      "assignee": null,
+      "status": "Concluído",
+      "acceptanceCriteria": [
+        "Cada aplicação tem seu package.json e lock.",
+        "Frontend compila com Vite.",
+        "Backend inicia e executa migração."
+      ]
+    },
+    {
+      "id": "DZ-02",
+      "title": "Criar a landing com a paleta definida",
+      "description": "Apresentar ferramentas, etapas, formatos e limites com identidade visual consistente.",
+      "assignee": null,
+      "status": "Concluído",
+      "acceptanceCriteria": [
+        "Paleta e tokens globais definidos.",
+        "Layout desktop inspecionado no navegador.",
+        "Atalhos direcionam às ferramentas."
+      ]
+    },
+    {
+      "id": "DZ-03",
+      "title": "Validar navegação e responsividade nas quatro telas",
+      "description": "Verificar rotas, menu ativo, menu mobile e ausência de overflow da página.",
+      "assignee": null,
+      "status": "Testes",
+      "acceptanceCriteria": [
+        "Navegar nas quatro rotas.",
+        "Menu funciona em 375 px e desktop.",
+        "Rota inexistente apresenta recuperação.",
+        "Navegação por teclado funciona."
+      ]
+    },
+    {
+      "id": "DZ-04",
+      "title": "Validar o fluxo de download por link direto",
+      "description": "Analisar URL pública, selecionar formato e salvar o resultado real.",
+      "assignee": null,
+      "status": "Testes",
+      "acceptanceCriteria": [
+        "Uma mídia de site externo é recebida.",
+        "Original preserva bytes.",
+        "Página HTML mostra orientação.",
+        "Fonte expirada pede nova análise.",
+        "Resultado aparece no histórico."
+      ]
+    },
+    {
+      "id": "DZ-05",
+      "title": "Validar upload, conversão e download pelo navegador",
+      "description": "Completar o teste visual do conversor com backend conectado.",
+      "assignee": null,
+      "status": "Testes",
+      "acceptanceCriteria": [
+        "Selecionar e arrastar arquivo funcionam.",
+        "PNG para WebP gera conteúdo válido.",
+        "MP4 para MP3 funciona com FFmpeg.",
+        "Arquivos incompatíveis recebem erro.",
+        "Salvar arquivo inicia download real."
+      ]
+    },
+    {
+      "id": "DZ-06",
+      "title": "Validar o histórico completo no navegador",
+      "description": "Testar filtros, busca, estatísticas, paginação e confirmações de exclusão.",
+      "assignee": null,
+      "status": "Testes",
+      "acceptanceCriteria": [
+        "Histórico lista operações reais.",
+        "Busca e filtros funcionam.",
+        "Paginação e estatísticas são coerentes.",
+        "Cancelar exclusão preserva dados.",
+        "Excluir remove registro e resultado."
+      ]
+    },
+    {
+      "id": "DZ-07",
+      "title": "Persistir operações e aplicar retenção de arquivos",
+      "description": "Implementar Sequelize, migração versionada, expiração e recuperação de operações interrompidas.",
+      "assignee": null,
+      "status": "Concluído",
+      "acceptanceCriteria": [
+        "Migração é idempotente.",
+        "Operações concluídas têm arquivo e metadados.",
+        "Expiração remove resultado e mantém registro.",
+        "Reinício trata operações interrompidas."
+      ]
+    },
+    {
+      "id": "DZ-08",
+      "title": "Documentar a API com Swagger e testar os endpoints",
+      "description": "Manter OpenAPI válido, exemplos, erros e upload multipart.",
+      "assignee": null,
+      "status": "Concluído",
+      "acceptanceCriteria": [
+        "OpenAPI passa no validador.",
+        "Todos os endpoints têm documentação.",
+        "Upload é descrito como multipart/form-data.",
+        "Suíte de integração passa com FFmpeg disponível."
+      ]
+    },
+    {
+      "id": "DZ-09",
+      "title": "Documentar telas, componentes e manutenção",
+      "description": "Fornecer roteiro de execução, mapa de requisitos e guia para evolução.",
+      "assignee": null,
+      "status": "Concluído",
+      "acceptanceCriteria": [
+        "telas.md contém funcionalidade e situação.",
+        "componentes.md descreve responsabilidades.",
+        "README explica dois servidores e limites.",
+        "testes.md distingue verificações e pendências."
+      ]
+    },
+    {
+      "id": "DZ-10",
+      "title": "Criar o Board e vincular Issues ao repositório correto",
+      "description": "Informar o repositório de destino, criar o Project e cadastrar responsáveis e critérios.",
+      "assignee": null,
+      "status": "A fazer",
+      "acceptanceCriteria": [
+        "Repositório de destino identificado.",
+        "Board possui as quatro colunas solicitadas.",
+        "Issues vinculadas e responsáveis definidos.",
+        "Status reflete a validação real."
+      ]
+    },
+    {
+      "id": "DZ-11",
+      "title": "Executar o roteiro no computador da apresentação",
+      "description": "Verificar instalação e demonstração de ponta a ponta no ambiente que será usado na faculdade.",
+      "assignee": null,
+      "status": "A fazer",
+      "acceptanceCriteria": [
+        "npm ci funciona nas duas aplicações.",
+        "API conectada no navegador.",
+        "FFmpeg e FFprobe disponíveis para mídia.",
+        "Download externo e conversão são demonstrados.",
+        "Swagger Try it out e histórico são apresentados."
+      ]
+    }
+  ]
+}

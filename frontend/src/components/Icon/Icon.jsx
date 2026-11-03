@@ -1,0 +1,93 @@
+import {
+  ArrowDownToLine,
+  ArrowUpRight,
+  ArrowRight,
+  ArrowLeftRight,
+  Upload,
+  Download,
+  RefreshCw,
+  FileImage,
+  FileAudio,
+  FileVideo,
+  File,
+  Check,
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+  Link2,
+  X,
+  Menu,
+  Search,
+  Trash2,
+  Clock3,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  FolderOpen,
+  ShieldCheck,
+  Sparkles,
+  ExternalLink,
+  Layers,
+  Copy,
+  Code2,
+  Info,
+  Image,
+  Music,
+  Video,
+  HardDrive,
+  Clipboard,
+  Plus,
+} from 'lucide-react';
+import styles from './Icon.module.css';
+const icons = {
+  download: ArrowDownToLine,
+  arrowUpRight: ArrowUpRight,
+  arrowRight: ArrowRight,
+  convert: ArrowLeftRight,
+  upload: Upload,
+  cloudDownload: Download,
+  refresh: RefreshCw,
+  fileImage: FileImage,
+  fileAudio: FileAudio,
+  fileVideo: FileVideo,
+  file: File,
+  check: Check,
+  success: CheckCircle2,
+  alert: AlertCircle,
+  loader: Loader2,
+  link: Link2,
+  close: X,
+  menu: Menu,
+  search: Search,
+  trash: Trash2,
+  clock: Clock3,
+  chevronDown: ChevronDown,
+  chevronLeft: ChevronLeft,
+  chevronRight: ChevronRight,
+  folder: FolderOpen,
+  shield: ShieldCheck,
+  sparkles: Sparkles,
+  external: ExternalLink,
+  layers: Layers,
+  copy: Copy,
+  code: Code2,
+  info: Info,
+  image: Image,
+  music: Music,
+  video: Video,
+  drive: HardDrive,
+  clipboard: Clipboard,
+  plus: Plus,
+};
+export function Icon({ name, size = 20, className = '', ...props }) {
+  const Component = icons[name] || File;
+  return (
+    <Component
+      size={size}
+      strokeWidth={1.7}
+      aria-hidden="true"
+      className={`${styles.icon} ${className}`}
+      {...props}
+    />
+  );
+}

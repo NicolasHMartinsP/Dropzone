@@ -1,0 +1,80 @@
+.card {
+  background: linear-gradient(145deg, #172245, #111b38);
+  border: 1px solid var(--color-border);
+  padding: 28px;
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
+  align-self: start;
+}
+.label {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 1.3px;
+  color: #858fb5;
+}
+.card h2 {
+  font: 500 24px/1.2 var(--display);
+  letter-spacing: -1px;
+  margin-top: 14px;
+  max-width: 180px;
+}
+.rows {
+  margin: 25px 0 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.icon {
+  width: 35px;
+  height: 38px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--palette-purple) 7.84%, transparent);
+  color: #a9acff;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.row h3 {
+  font-weight: 500;
+  font-size: 12px;
+  margin-top: 2px;
+}
+.row p {
+  font-size: 10px;
+  color: #929fc0;
+  margin-top: 6px;
+}
+.unavailable {
+  display: block;
+  font-size: 8px;
+  color: #c5b980;
+  margin-top: 5px;
+}
+.note {
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  color: #8291b3;
+  font-size: 10px;
+  line-height: 1.8;
+}
+.note svg {
+  margin-top: 2px;
+}
+.decoration {
+  position: absolute;
+  right: -6px;
+  top: 18px;
+  font: 90px var(--display);
+  color: color-mix(in srgb, var(--palette-purple) 3.92%, transparent);
+  transform: rotate(8deg);
+  pointer-events: none;
+}

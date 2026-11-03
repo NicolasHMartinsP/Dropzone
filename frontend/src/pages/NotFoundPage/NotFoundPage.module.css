@@ -1,0 +1,19 @@
+.page {
+  padding-block: 120px;
+  text-align: center;
+}
+.page > span {
+  color: #8d92e2;
+  letter-spacing: 3px;
+  font-size: 10px;
+}
+.page h1 {
+  font: 500 clamp(35px, 5vw, 55px) var(--display);
+  letter-spacing: -2px;
+  margin-top: 24px;
+}
+.page p {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 22px 0 30px;
+}

@@ -1,0 +1,44 @@
+.fieldset {
+  padding: 0;
+  margin: 28px 0;
+  border: 0;
+  min-width: 0;
+}
+.fieldset legend {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 0;
+  margin-bottom: 12px;
+}
+.formats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+.format {
+  min-height: 44px;
+  min-width: 76px;
+  padding: 10px 15px;
+  background: #0d1733;
+  border: 1px solid #334166;
+  border-radius: 8px;
+  color: #9ba5c5;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+.format:hover {
+  border-color: var(--palette-purple);
+}
+.selected {
+  background: color-mix(in srgb, var(--palette-purple) 8.24%, transparent);
+  color: var(--color-text);
+  border-color: var(--palette-purple);
+  font-weight: 700;
+}
+.fieldset:disabled button {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

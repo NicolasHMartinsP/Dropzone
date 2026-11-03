@@ -1,0 +1,18 @@
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--palette-purple) 4.71%, transparent);
+  color: #a1acce;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.notice svg {
+  margin-top: 1px;
+}
+.error {
+  background: #f78a8510;
+  color: #ffb8a9;
+}

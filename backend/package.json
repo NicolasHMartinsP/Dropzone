@@ -1,0 +1,33 @@
+{
+  "name": "dropzone-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "API REST de downloads, conversões e histórico do DropZone.",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "db:migrate": "node src/database/migrate.js",
+    "test": "node --test --test-concurrency=1 tests/*.test.js"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "helmet": "^8.1.0",
+    "ipaddr.js": "^2.2.0",
+    "multer": "^2.0.2",
+    "sequelize": "^6.37.7",
+    "sharp": "^0.34.5",
+    "sqlite3": "^5.1.7",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@apidevtools/swagger-parser": "^12.1.0",
+    "supertest": "^7.1.4"
+  }
+}

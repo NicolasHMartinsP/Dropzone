@@ -1,0 +1,34 @@
+.badge {
+  display: inline-flex;
+  width: 44px;
+  height: 50px;
+  border-radius: 9px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: color-mix(in srgb, var(--palette-purple) 8.24%, transparent);
+  color: var(--color-text);
+  flex-shrink: 0;
+}
+.badge small {
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+}
+.audio {
+  background: color-mix(in srgb, var(--palette-purple) 8.24%, transparent);
+  color: #b3a5ff;
+}
+.video {
+  background: color-mix(in srgb, var(--palette-blue) 16.47%, transparent);
+  color: #aeb0ff;
+}
+.large {
+  width: 70px;
+  height: 80px;
+  border-radius: 13px;
+}
+.large small {
+  font-size: 9px;
+}

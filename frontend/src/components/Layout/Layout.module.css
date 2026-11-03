@@ -1,0 +1,21 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.main {
+  flex: 1;
+}
+.skip {
+  position: fixed;
+  top: -80px;
+  left: 20px;
+  z-index: 100;
+  padding: 14px 20px;
+  color: white;
+  background: var(--color-text);
+  border-radius: 8px;
+}
+.skip:focus {
+  top: 12px;
+}

@@ -1,0 +1,21 @@
+.state {
+  padding: 22px;
+  border: 1px solid color-mix(in srgb, var(--palette-purple) 23.14%, transparent);
+  background: color-mix(in srgb, var(--palette-purple) 3.92%, transparent);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin-top: 22px;
+  color: #b5b7ff;
+}
+.state strong {
+  font-size: 13px;
+  font-weight: 500;
+}
+.state p {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin-top: 6px;
+}
