@@ -1,77 +1,55 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Brand } from '../Brand/Brand.jsx';
 import { Icon } from '../Icon/Icon.jsx';
-import { useApp } from '../../contexts/AppContext.jsx';
-import { apiDocsUrl } from '../../services/api.js';
 import styles from './Header.module.css';
-
-const links = [
-  { to: '/', label: 'Início', end: true },
-  { to: '/downloads', label: 'Downloads' },
-  { to: '/conversor', label: 'Conversor' },
-  { to: '/historico', label: 'Histórico' },
-];
 export function Header() {
-  const [open, setOpen] = useState(false);
-  const { connection } = useApp();
   const { pathname } = useLocation();
+  const menu = useRef(null);
+  const label =
+    pathname === '/conversor'
+      ? 'Converter'
+      : pathname === '/historico'
+        ? 'Histórico'
+        : 'Baixar';
   useEffect(() => {
-    setOpen(false);
+    menu.current.open = false;
+    function close(event) {
+      if (!menu.current?.contains(event.target)) menu.current.open = false;
+    }
+    function escape(event) {
+      if (event.key === 'Escape' && menu.current.open) {
+        menu.current.open = false;
+        menu.current.querySelector('summary').focus();
+      }
+    }
+    document.addEventListener('pointerdown', close);
+    document.addEventListener('keydown', escape);
+    return () => {
+      document.removeEventListener('pointerdown', close);
+      document.removeEventListener('keydown', escape);
+    };
   }, [pathname]);
   return (
     <header className={styles.header}>
-      <div className={`container ${styles.inner}`}>
-        <Brand />
-        <nav
-          id="main-nav"
-          aria-label="Navegação principal"
-          className={`${styles.nav} ${open ? styles.open : ''}`}
-        >
-          {links.map(({ to, label, end }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={end}
-              className={({ isActive }) =>
-                `${styles.link} ${isActive ? styles.active : ''}`
-              }
-            >
-              {label}
-            </NavLink>
-          ))}
+      <Brand />
+      <details ref={menu} className={styles.menu}>
+        <summary aria-label={'Trocar ferramenta: ' + label}>
+          {label}
+          <Icon name="chevronDown" size={15} />
+        </summary>
+        <nav aria-label="Ferramentas">
+          <NavLink to="/" end>
+            <Icon name="download" size={16} /> Baixar
+          </NavLink>
+          <NavLink to="/conversor">
+            <Icon name="convert" size={16} /> Converter
+          </NavLink>
+          <NavLink to="/historico">
+            <Icon name="clock" size={16} /> Histórico
+          </NavLink>
         </nav>
-        <div className={styles.actions}>
-          <span
-            className={`${styles.connection} ${styles[connection]}`}
-            title={
-              connection === 'online'
-                ? 'Backend conectado'
-                : 'Inicie o backend na porta 3333'
-            }
-          >
-            <i />
-            {connection === 'online'
-              ? 'API conectada'
-              : connection === 'checking'
-                ? 'Conectando'
-                : 'API desconectada'}
-          </span>
-          <a href={apiDocsUrl} target="_blank" rel="noreferrer" className={styles.docs}>
-            API Docs <Icon name="arrowUpRight" size={16} />
-          </a>
-        </div>
-        <button
-          type="button"
-          className={styles.menu}
-          onClick={() => setOpen(!open)}
-          aria-label={open ? 'Fechar navegação' : 'Abrir navegação'}
-          aria-expanded={open}
-          aria-controls="main-nav"
-        >
-          <Icon name={open ? 'close' : 'menu'} size={24} />
-        </button>
-      </div>
+      </details>
     </header>
   );
 }
