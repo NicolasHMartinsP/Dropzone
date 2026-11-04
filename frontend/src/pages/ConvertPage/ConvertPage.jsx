@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { PageHeading } from '../../components/PageHeading/PageHeading.jsx';
 import { FileDropzone } from '../../components/FileDropzone/FileDropzone.jsx';
 import { FileBadge } from '../../components/FileBadge/FileBadge.jsx';
 import { FormatPicker } from '../../components/FormatPicker/FormatPicker.jsx';
@@ -8,7 +7,6 @@ import { Icon } from '../../components/Icon/Icon.jsx';
 import { Notice } from '../../components/Notice/Notice.jsx';
 import { TaskResult } from '../../components/TaskResult/TaskResult.jsx';
 import { ProcessingState } from '../../components/ProcessingState/ProcessingState.jsx';
-import { SupportedFormats } from '../../components/SupportedFormats/SupportedFormats.jsx';
 import { useApp } from '../../contexts/AppContext.jsx';
 import { conversionService } from '../../services/conversion.service.js';
 import { fileKind, formatBytes } from '../../utils/format.js';
@@ -97,24 +95,9 @@ export function ConvertPage() {
   }
 
   return (
-    <div className={`container ${styles.page}`}>
-      <PageHeading
-        number="02"
-        label="Conversor de arquivos"
-        title="Um arquivo. Outro formato."
-        description="O mesmo conteúdo, pronto para o que você precisa fazer agora."
-      />
+    <div className={styles.page}>
       <div className={styles.layout}>
         <section className={styles.card}>
-          <div className={styles.cardTitle}>
-            <span>
-              <Icon name="convert" size={22} />
-            </span>
-            <div>
-              <h2>Dê um novo formato à sua ideia.</h2>
-              <p>Escolha um arquivo para começar a transformação.</p>
-            </div>
-          </div>
           {!file && (
             <FileDropzone onSelect={selectFile} disabled={busy} maxSize={maxSize} />
           )}
@@ -168,7 +151,7 @@ export function ConvertPage() {
               </div>
             </>
           )}
-          {busy && <ProcessingState title="Seu arquivo está ganhando um novo formato…" />}
+          {busy && <ProcessingState title="Convertendo arquivo…" />}
           {job && <TaskResult job={job} onReset={reset} />}
           {error && (
             <div className={styles.error}>
@@ -183,23 +166,6 @@ export function ConvertPage() {
             </span>
           </div>
         </section>
-        <SupportedFormats />
-      </div>
-      <div className={styles.notes}>
-        <div>
-          <Icon name="image" size={18} />
-          <span>
-            <strong>Mais leve, mais compatível.</strong> PNG, JPG, WebP e AVIF para o seu
-            próximo projeto.
-          </span>
-        </div>
-        <div>
-          <Icon name="music" size={18} />
-          <span>
-            <strong>Só precisa do áudio?</strong> Extraia MP3, WAV ou OGG de um vídeo com
-            áudio.
-          </span>
-        </div>
       </div>
     </div>
   );

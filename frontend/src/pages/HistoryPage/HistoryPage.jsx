@@ -9,7 +9,6 @@ import { useApp } from '../../contexts/AppContext.jsx';
 import { useDebounce } from '../../hooks/useDebounce.js';
 import { historyService } from '../../services/history.service.js';
 import { saveFile } from '../../services/api.js';
-import { formatBytes } from '../../utils/format.js';
 import styles from './HistoryPage.module.css';
 
 const tabs = [
@@ -25,7 +24,6 @@ export function HistoryPage() {
   const debouncedQuery = useDebounce(query);
   const [page, setPage] = useState(1);
   const [history, setHistory] = useState({ items: [], total: 0, pages: 1 });
-  const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [refreshKey, setRefreshKey] = useState(0);
@@ -37,13 +35,10 @@ export function HistoryPage() {
     const controller = new AbortController();
     setLoading(true);
     setError('');
-    Promise.all([
-      historyService.list({ kind, status, q: debouncedQuery, page }, controller.signal),
-      historyService.stats(controller.signal),
-    ])
-      .then(([list, totals]) => {
+    historyService
+      .list({ kind, status, q: debouncedQuery, page }, controller.signal)
+      .then((list) => {
         setHistory(list);
-        setStats(totals);
         if (page > list.pages) setPage(list.pages);
       })
       .catch((error) => {
@@ -82,24 +77,13 @@ export function HistoryPage() {
     }
   }
 
-  const summary = [
-    { label: 'Operações registradas', value: stats?.total, icon: 'layers' },
-    { label: 'Operações de download', value: stats?.downloads, icon: 'download' },
-    { label: 'Operações de conversão', value: stats?.conversions, icon: 'convert' },
-    {
-      label: 'Arquivos gerados',
-      value: stats ? formatBytes(stats.totalBytes) : undefined,
-      icon: 'drive',
-    },
-  ];
-
   return (
     <div className={`container ${styles.page}`}>
       <PageHeading
         number="03"
         label="Histórico de atividades"
-        title="Seu próximo passo já passou por aqui."
-        description="Reencontre seus arquivos, acompanhe operações e continue de onde parou."
+        title="Seus arquivos recentes."
+        description="Consulte, baixe novamente ou remova um registro."
       >
         <Button
           variant="secondary"
@@ -110,23 +94,10 @@ export function HistoryPage() {
           Atualizar
         </Button>
       </PageHeading>
-      <div className={styles.stats}>
-        {summary.map((stat) => (
-          <div className={styles.stat} key={stat.label}>
-            <div>
-              <span>{stat.label}</span>
-              <strong>{stat.value ?? '—'}</strong>
-            </div>
-            <span className={styles.statIcon}>
-              <Icon name={stat.icon} size={20} />
-            </span>
-          </div>
-        ))}
-      </div>
       <section className={styles.panel}>
         <div className={styles.panelHeader}>
           <div>
-            <h2>Arquivos em movimento.</h2>
+            <h2>Histórico</h2>
             <span>
               {history.total}{' '}
               {history.total === 1 ? 'registro encontrado' : 'registros encontrados'}
@@ -136,7 +107,7 @@ export function HistoryPage() {
             variant="ghost"
             icon="trash"
             onClick={() => setDeleteTarget('all')}
-            disabled={!stats?.total || loading}
+            disabled={!history.total || loading}
           >
             Limpar histórico
           </Button>

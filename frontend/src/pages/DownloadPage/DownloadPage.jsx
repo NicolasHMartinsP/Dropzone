@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { PageHeading } from '../../components/PageHeading/PageHeading.jsx';
 import { Button } from '../../components/Button/Button.jsx';
 import { Icon } from '../../components/Icon/Icon.jsx';
 import { Notice } from '../../components/Notice/Notice.jsx';
 import { FileBadge } from '../../components/FileBadge/FileBadge.jsx';
 import { FormatPicker } from '../../components/FormatPicker/FormatPicker.jsx';
 import { TaskResult } from '../../components/TaskResult/TaskResult.jsx';
-import { SupportedFormats } from '../../components/SupportedFormats/SupportedFormats.jsx';
 import { ProcessingState } from '../../components/ProcessingState/ProcessingState.jsx';
 import { downloadService } from '../../services/download.service.js';
 import { formatBytes } from '../../utils/format.js';
@@ -75,25 +73,10 @@ export function DownloadPage() {
   }
 
   return (
-    <div className={`container ${styles.page}`}>
-      <PageHeading
-        number="01"
-        label="Downloads por link"
-        title="Do link para sua pasta."
-        description="Traga o endereço direto de uma mídia. A gente prepara o próximo passo."
-      />
+    <div className={styles.page}>
       <div className={styles.layout}>
         <div>
           <section className={styles.card}>
-            <div className={styles.cardTitle}>
-              <span>
-                <Icon name="link" size={22} />
-              </span>
-              <div>
-                <h2>O primeiro passo é um link.</h2>
-                <p>Imagens, áudios e vídeos disponíveis publicamente.</p>
-              </div>
-            </div>
             <form onSubmit={analyze}>
               <label htmlFor="media-url" className={styles.label}>
                 Link do arquivo
@@ -127,8 +110,8 @@ export function DownloadPage() {
                 </button>
               </div>
               <p id="url-hint" className={styles.hint}>
-                Use o endereço do arquivo, como .jpg ou .mp4, em vez do endereço de uma
-                página.
+                Use um link direto de imagem, áudio ou vídeo. Links de páginas ainda não
+                são suportados.
               </p>
               {!source && !job && (
                 <Button
@@ -211,14 +194,6 @@ export function DownloadPage() {
             </p>
           </details>
         </div>
-        <SupportedFormats />
-      </div>
-      <div className={styles.bottomNote}>
-        <Icon name="shield" size={15} />
-        <span>
-          Baixe arquivos que você tem permissão para usar. O arquivo original permanece no
-          site de origem.
-        </span>
       </div>
     </div>
   );

@@ -5,9 +5,9 @@
   --palette-navy: #041447;
   --palette-blue: #3e43b8;
   --palette-purple: #8488f6;
-  --color-background: #070e25;
-  --color-surface: #101b3b;
-  --color-surface-raised: #172448;
+  --color-background: #070b19;
+  --color-surface: #10162a;
+  --color-surface-raised: #182039;
   --color-text: #f0f1ff;
   --color-text-muted: #9ba6c7;
   --color-border: #273354;
@@ -31,6 +31,7 @@
 body {
   margin: 0;
   min-width: 320px;
+  background: radial-gradient(ellipse at 50% 10%, #3e43b812, transparent 60%);
 }
 button,
 input,
@@ -93,7 +94,7 @@ select:focus {
   color: white;
 }
 .container {
-  width: min(1180px, calc(100% - 80px));
+  width: min(1080px, calc(100% - 80px));
   margin-inline: auto;
 }
 .sr-only {

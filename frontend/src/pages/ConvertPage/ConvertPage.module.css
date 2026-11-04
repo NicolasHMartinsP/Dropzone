@@ -1,44 +1,12 @@
 .page {
-  padding-top: 55px;
-  padding-bottom: 70px;
+  padding: 0;
 }
 .layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 290px;
-  gap: 24px;
+  display: block;
 }
 .card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  padding: 32px;
-  border-radius: 18px;
-}
-.cardTitle {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 28px;
-}
-.cardTitle > span {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--palette-neon) 4.71%, transparent);
-  color: var(--color-accent);
-  border: 1px solid color-mix(in srgb, var(--palette-neon) 10.59%, transparent);
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-}
-.cardTitle h2 {
-  font: 500 21px var(--display);
-  letter-spacing: -0.7px;
-}
-.cardTitle p {
-  font-size: 11px;
-  color: var(--color-text-muted);
-  margin-top: 7px;
-  line-height: 1.6;
+  padding: 28px;
+  background: transparent;
 }
 .selectedFile {
   padding: 23px;
@@ -106,31 +74,6 @@
 .cardFoot svg {
   margin-top: 1px;
 }
-.notes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-top: 28px;
-}
-.notes > div {
-  display: flex;
-  align-items: flex-start;
-  gap: 11px;
-  padding: 18px 20px;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  color: #7785ab;
-  font-size: 10px;
-  line-height: 1.8;
-}
-.notes svg {
-  color: #9195e4;
-}
-.notes strong {
-  font-weight: 500;
-  color: #b0b9d3;
-  margin-right: 4px;
-}
 .error {
   margin-top: 20px;
 }
@@ -144,34 +87,13 @@
   justify-content: flex-start;
   flex-wrap: wrap;
 }
-@media (max-width: 900px) {
-  .layout {
-    grid-template-columns: minmax(0, 1fr) 240px;
-    gap: 18px;
-  }
+
+@media (max-width: 600px) {
   .card {
-    padding: 25px;
-  }
-}
-@media (max-width: 750px) {
-  .page {
-    padding-top: 36px;
-  }
-  .layout,
-  .notes {
-    grid-template-columns: 1fr;
-  }
-  .card {
-    padding: 23px;
-  }
-  .cardTitle h2 {
-    font-size: 19px;
+    padding: 20px;
   }
   .selectedFile {
-    padding: 17px;
-    gap: 12px;
-  }
-  .notes {
+    padding: 16px;
     gap: 12px;
   }
 }

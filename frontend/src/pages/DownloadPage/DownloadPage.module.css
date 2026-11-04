@@ -1,43 +1,12 @@
 .page {
-  padding-top: 55px;
-  padding-bottom: 70px;
+  padding: 0;
 }
 .layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 290px;
-  gap: 24px;
+  display: block;
 }
 .card {
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  padding: 32px;
-  border-radius: 18px;
-}
-.cardTitle {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 30px;
-}
-.cardTitle > span {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--palette-purple) 9.8%, transparent);
-  color: #a9acff;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-}
-.cardTitle h2 {
-  font: 500 21px var(--display);
-  letter-spacing: -0.7px;
-}
-.cardTitle p {
-  font-size: 11px;
-  color: var(--color-text-muted);
-  margin-top: 7px;
-  line-height: 1.6;
+  padding: 28px;
+  background: transparent;
 }
 .label {
   display: block;
@@ -87,13 +56,14 @@
   font-size: 10px;
 }
 .hint {
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.8;
   color: #7e8db1;
   margin-top: 10px;
 }
 .analyze {
-  margin-top: 26px;
+  width: 100%;
+  margin-top: 20px;
 }
 .source {
   border-top: 1px solid var(--color-border);
@@ -149,10 +119,9 @@
   flex-wrap: wrap;
 }
 .help {
-  margin-top: 18px;
-  padding: 18px 22px;
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
+  margin: 0 28px 24px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 18px;
 }
 .help summary {
   list-style: none;
@@ -178,55 +147,19 @@
   line-height: 1.9;
   margin-top: 16px;
 }
-.bottomNote {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  font-size: 10px;
-  color: #7684a8;
-  margin-top: 32px;
-  line-height: 1.8;
-}
-@media (max-width: 900px) {
-  .layout {
-    grid-template-columns: minmax(0, 1fr) 240px;
-    gap: 18px;
-  }
+
+@media (max-width: 600px) {
   .card {
-    padding: 25px;
+    padding: 20px;
   }
-}
-@media (max-width: 750px) {
-  .page {
-    padding-top: 36px;
-  }
-  .layout {
-    grid-template-columns: 1fr;
-  }
-  .card {
-    padding: 23px;
-  }
-  .cardTitle h2 {
-    font-size: 19px;
-  }
-  .ready {
-    display: none;
+  .help {
+    margin-inline: 20px;
   }
   .sourceNote {
     display: block;
     margin: 12px 0 0;
   }
-  .bottomNote {
-    align-items: flex-start;
-  }
-  .bottomNote svg {
-    margin-top: 3px;
-    flex-shrink: 0;
-  }
-}
-@media (max-width: 400px) {
-  .urlInput button span {
+  .ready {
     display: none;
   }
 }
