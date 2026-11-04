@@ -1,33 +1,19 @@
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  font-family: var(--display);
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: -1.5px;
-  color: var(--color-text);
+  gap: 10px;
+  font: 500 21px var(--display);
+  letter-spacing: -1px;
+  color: #e4eee7;
 }
 .mark {
-  width: 36px;
-  height: 36px;
+  color: #b6e9ba;
   display: grid;
   place-items: center;
-  background: var(--color-accent);
-  color: var(--palette-navy);
-  border-radius: 11px;
-  transform: rotate(-8deg);
-}
-.mark svg {
-  transform: rotate(8deg);
 }
 .dot {
-  color: var(--color-accent);
+  color: #a6e3ae;
 }
 .inverse {
   color: var(--color-background);
-}
-.inverse .mark {
-  background: var(--color-accent);
-  color: var(--color-text);
 }

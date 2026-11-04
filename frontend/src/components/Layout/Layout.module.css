@@ -1,9 +1,14 @@
 .layout {
   min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
 }
 .main {
+  display: flex;
+  flex-direction: column;
   flex: 1;
 }
 .skip {
@@ -18,4 +23,24 @@
 }
 .skip:focus {
   top: 12px;
+}
+
+/* Static paint: no animated noise, canvas, blur or pointer tracking. */
+.layout::before,
+.layout::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+.layout::before {
+  background:
+    radial-gradient(ellipse at 30% 65%, #3a794b80, transparent 52%),
+    radial-gradient(ellipse at 78% 90%, #235b4266, transparent 48%),
+    radial-gradient(ellipse at 72% 8%, #132b5540, transparent 60%), #061323;
+}
+.layout::after {
+  background: url('/film-grain.svg') repeat;
+  opacity: 0.12;
 }

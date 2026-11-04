@@ -1,20 +1,18 @@
 import { useState, useEffect } from 'react';
 import { FileDropzone } from '../../components/FileDropzone/FileDropzone.jsx';
-import { FileBadge } from '../../components/FileBadge/FileBadge.jsx';
-import { FormatPicker } from '../../components/FormatPicker/FormatPicker.jsx';
-import { Button } from '../../components/Button/Button.jsx';
 import { Icon } from '../../components/Icon/Icon.jsx';
 import { Notice } from '../../components/Notice/Notice.jsx';
-import { TaskResult } from '../../components/TaskResult/TaskResult.jsx';
-import { ProcessingState } from '../../components/ProcessingState/ProcessingState.jsx';
 import { useApp } from '../../contexts/AppContext.jsx';
 import { conversionService } from '../../services/conversion.service.js';
-import { fileKind, formatBytes } from '../../utils/format.js';
-import styles from './ConvertPage.module.css';
+import { fileKind } from '../../utils/format.js';
+import styles from '../../components/MediaStage/Workspace.module.css';
+import { MediaStage } from '../../components/MediaStage/MediaStage.jsx';
+import { mediaUrl, saveFile } from '../../services/api.js';
 
 const defaultImageFormats = ['png', 'jpg', 'webp', 'avif'];
-export function ConvertPage() {
-  const { health, notify } = useApp();
+export function ConvertPage({ active = true }) {
+  const { health } = useApp();
+  const [saving, setSaving] = useState(false);
   const [file, setFile] = useState(null);
   const [format, setFormat] = useState('webp');
   const [error, setError] = useState('');
@@ -29,7 +27,7 @@ export function ConvertPage() {
       : health?.capabilities[kind] || [];
 
   useEffect(() => {
-    if (!file || kind !== 'image') {
+    if (!file) {
       setPreview(null);
       return;
     }
@@ -80,7 +78,6 @@ export function ConvertPage() {
     try {
       const result = await conversionService.convert(file, format);
       setJob(result);
-      notify('Conversão concluída e registrada no histórico.');
     } catch (error) {
       setError(error.message);
     } finally {
@@ -94,79 +91,94 @@ export function ConvertPage() {
     setError('');
   }
 
+  async function save() {
+    setSaving(true);
+    setError('');
+    try {
+      await saveFile(job);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+  const previewKind = job
+    ? fileKind({ name: job.outputName, type: job.mimeType || '' })
+    : kind;
   return (
-    <div className={styles.page}>
-      <div className={styles.layout}>
-        <section className={styles.card}>
-          {!file && (
+    <div className={styles.workspace}>
+      <div className={styles.center}>
+        {!file ? (
+          <div className={styles.empty}>
+            <h1>
+              Outro formato.
+              <br />
+              Mesma ideia.
+            </h1>
             <FileDropzone onSelect={selectFile} disabled={busy} maxSize={maxSize} />
-          )}
-          {file && !job && (
-            <>
-              <div className={styles.selectedFile}>
-                {preview ? (
-                  <img
-                    src={preview}
-                    alt="Prévia do arquivo selecionado"
-                    className={styles.preview}
-                  />
-                ) : (
-                  <FileBadge
-                    kind={kind}
-                    format={file.name.split('.').pop()}
-                    size="large"
-                  />
-                )}
-                <div>
-                  <strong>{file.name}</strong>
-                  <span>{formatBytes(file.size)} · Arquivo selecionado</span>
-                </div>
-                <button
-                  type="button"
-                  disabled={busy}
-                  onClick={reset}
-                  aria-label="Remover arquivo selecionado"
-                >
-                  <Icon name="close" size={18} />
-                </button>
-              </div>
-              <FormatPicker
-                formats={formats}
-                value={format}
-                onChange={setFormat}
-                disabled={busy}
-              />
-              <div className={styles.convertAction}>
-                <Button
-                  onClick={convert}
-                  loading={busy}
-                  icon="convert"
-                  disabled={!formats.includes(format)}
-                >
-                  Converter para {format.toUpperCase()}
-                </Button>
-                <span>
-                  <Icon name="clock" size={13} /> Seu original continua intacto.
-                </span>
-              </div>
-            </>
-          )}
-          {busy && <ProcessingState title="Convertendo arquivo…" />}
-          {job && <TaskResult job={job} onReset={reset} />}
-          {error && (
-            <div className={styles.error}>
-              <Notice error>{error}</Notice>
-            </div>
-          )}
-          <div className={styles.cardFoot}>
-            <Icon name="shield" size={14} />
-            <span>
-              O processamento acontece no servidor local. O resultado fica disponível por{' '}
-              {health?.retentionHours || 24}h.
-            </span>
           </div>
-        </section>
+        ) : (
+          <MediaStage
+            active={active}
+            src={job ? mediaUrl(job.downloadUrl) : preview}
+            kind={previewKind}
+            name={job?.outputName || file.name}
+            size={job?.sizeBytes ?? file.size}
+            busy={busy || saving}
+            status={
+              busy
+                ? 'Convertendo…'
+                : saving
+                  ? 'Salvando…'
+                  : job
+                    ? 'Arquivo pronto.'
+                    : 'Escolha o formato de saída.'
+            }
+          >
+            {!job && (
+              <label className={styles.format}>
+                <span>Formato</span>
+                <select
+                  aria-label="Formato de saída"
+                  value={format}
+                  onChange={(event) => setFormat(event.target.value)}
+                  disabled={busy}
+                >
+                  {formats.map((item) => (
+                    <option key={item} value={item}>
+                      {item.toUpperCase()}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
+            <button
+              type="button"
+              className={styles.action}
+              onClick={job ? save : convert}
+              disabled={busy || saving || (!job && !formats.includes(format))}
+            >
+              <Icon name={job ? 'download' : 'convert'} size={16} />
+              {job ? 'Salvar arquivo' : 'Converter'}
+            </button>
+            <button
+              type="button"
+              className={styles.secondary}
+              onClick={reset}
+              disabled={busy || saving}
+              aria-label="Remover arquivo"
+            >
+              <Icon name="close" size={15} />
+            </button>
+          </MediaStage>
+        )}
+        {error && (
+          <div className={styles.error}>
+            <Notice error>{error}</Notice>
+          </div>
+        )}
       </div>
+      <p className={styles.hint}>Seu original permanece intacto · Até {maxSize} MB</p>
     </div>
   );
 }

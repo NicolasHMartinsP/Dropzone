@@ -31,7 +31,7 @@
 body {
   margin: 0;
   min-width: 320px;
-  background: radial-gradient(ellipse at 50% 10%, #3e43b812, transparent 60%);
+  background: #061323;
 }
 button,
 input,

@@ -5,6 +5,7 @@ import { Footer } from '../Footer/Footer.jsx';
 import styles from './Layout.module.css';
 export function Layout() {
   const { pathname } = useLocation();
+  const studio = ['/', '/downloads', '/conversor'].includes(pathname);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
@@ -17,7 +18,7 @@ export function Layout() {
       <main id="content" className={styles.main} tabIndex={-1}>
         <Outlet />
       </main>
-      <Footer />
+      {!studio && <Footer />}
     </div>
   );
 }

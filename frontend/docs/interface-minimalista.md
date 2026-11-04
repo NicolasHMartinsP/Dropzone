@@ -1,21 +1,25 @@
-# Interface minimalista
+# Interface centrada na mídia
 
-A página inicial oferece as ferramentas diretamente. A paleta cyberpunk foi preservada: verde neon #1EFD4A para ações, verde escuro #0A3D14, azul-marinho #041447, azul #3E43B8 e lilás #8488F6. Tons de apoio garantem leitura no fundo escuro.
+A ferramenta ocupa a tela: menu no canto superior direito, mídia ao centro e barra compacta de link na parte inferior. O conversor usa o mesmo palco de mídia. O fundo combina azul-escuro e degradês verdes com grão de filme estático.
 
-## Organização para manutenção
+## Organização
 
-- LandingPage compõe o título, a navegação e a ferramenta ativa. As URLs / e /downloads abrem download; /conversor abre conversão.
-- DownloadPage e ConvertPage preservam os serviços, validações, resultados e estados de processamento existentes. Formatos aparecem depois da análise ou seleção de arquivo.
-- Header contém marca e histórico. Footer mantém a documentação técnica como acesso secundário.
-- HistoryPage mantém busca, filtros, paginação, download e confirmação de exclusão; os indicadores e a requisição de estatísticas foram removidos.
-- global.css concentra a paleta. CSS Modules mantêm os estilos de cada componente isolados; as transições respeitam prefers-reduced-motion.
+- Layout cria o fundo compartilhado e omite o rodapé nas ferramentas. Header usa details/summary com links, fechamento por Escape e clique externo.
+- LandingPage mantém DownloadPage e ConvertPage montados ao alternar entre /, /downloads e /conversor. O arquivo selecionado e o formato permanecem; os players ocultos são pausados. Sair para o histórico ou recarregar encerra esse estado temporário.
+- MediaStage exibe imagem, vídeo ou áudio reais, nome, tamanho, controles e status. Arquivos sem codec suportado pelo navegador exibem uma mensagem e continuam disponíveis para processamento.
+- Workspace.module.css concentra os controles compactos, a barra inferior e os espaçamentos comuns. Os formatos são apresentados em um select nativo.
+- Conversão local usa URL.createObjectURL para prévia e revoga a URL ao trocar ou remover o arquivo. Vídeo/áudio usam preload=metadata e não iniciam automaticamente.
+- O grão é uma pequena textura SVG repetida. Não há loop JavaScript, animação de fundo, canvas ou filtros de blur em tela cheia. Transições curtas respeitam prefers-reduced-motion. Não foi feito benchmark de GPU/FPS.
 
-HeroPreview, ToolCard e SupportedFormats foram removidos após verificar a ausência de consumidores. O Git preserva suas versões anteriores.
+## Prévia de downloads
 
-## Limites preservados
+POST /api/downloads/inspect retorna previewUrl. GET /api/downloads/:id/preview serve somente o arquivo previamente recebido e identificado, com MIME conhecido, Range e Cache-Control: no-store. A rota não recebe URL remota ou caminho de disco. IDs inexistentes/expirados retornam 410; arquivo em processamento retorna 409. A prévia expira em até 15 minutos e é consumida ao preparar o download. Após o processamento, o palco usa downloadUrl do resultado.
 
-Downloads continuam aceitando links diretos de mídia. Esta alteração visual não implementa extração de links de compartilhamento. Conversões dependem das capacidades informadas pela API; áudio e vídeo precisam de FFmpeg. Os arquivos são processados no servidor, não offline no navegador.
+A resolução exibida é a da origem, não uma promessa de qualidade de saída. O backend ainda não aceita qualidade/bitrate selecionáveis; por isso não existem opções fictícias. Downloads continuam limitados a links diretos de mídia. Imagem, áudio e vídeo são processados no servidor; FFmpeg é necessário para áudio/vídeo.
 
-## Validação
+## Verificação
 
-Build: npm run build na pasta frontend. Conferir /, /downloads, /conversor, /historico e uma URL inexistente. Com o backend local ativo, testar análise de link, conversão de imagem, download do resultado e histórico. Conferir também largura de 360px, foco por teclado e mensagens de erro. Testes de processamento reais não foram executados nesta revisão visual.
+- Build: npm run build na pasta frontend.
+- Teste independente do banco: node --test backend/tests/source-preview.test.js, a partir da raiz. Cobre bytes de imagem, Content-Type, Range, cache, ID inválido, caminho arbitrário e expiração.
+- Navegador: seleção de imagem, prévia, alteração de formato e preservação do arquivo/formato ao alternar ferramentas.
+- Ainda validar com PostgreSQL local: conversão completa, salvar resultado, histórico e links remotos reais. A suíte antiga de integração usa o banco configurado; não foi executada nesta revisão. Layout mobile possui regras responsivas, mas não foi validado em viewport mobile nesta sessão.
