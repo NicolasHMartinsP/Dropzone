@@ -1,5 +1,21 @@
 # DropZone
 
+## Prioridades aprovadas (2026-11-03)
+
+1. Persistência com **PostgreSQL + Sequelize**, requisito obrigatório da faculdade (#12).
+2. Baixar **MP4/MP3 por links compartilhados** de fontes públicas suportadas, além dos links diretos (#4).
+3. Validar conversões de imagens PNG/JPG/WebP, áudio MP3/WAV/OGG, vídeo MP4/WebM e extração MP4 → MP3 (#14).
+4. Simplificar a interface: #171219, #355834 e #D33F49, texto neutro legível, grão discreto, espaçamento consistente e animações curtas (#15).
+5. Conta e histórico privado de metadados ficam depois das ferramentas públicas (#13, #16 e #17).
+
+**Situação real:** o código usa PostgreSQL + Sequelize, aceita links diretos e converte no backend local com Sharp/FFmpeg. Links compartilhados são trabalho pendente.
+Para entregar áudio/vídeo sem duplicar motores, o backend existente será reaproveitado. Conversão no navegador fica como melhoria posterior.
+O adaptador de compartilhamento deve avaliar yt-dlp; suporte por fonte precisa ser testado e datado, sem promessa de compatibilidade universal.
+PDF/Office, playlists/lotes e login em plataformas não fazem parte desta primeira entrega.
+
+O [Project](https://github.com/users/NicolasHMartinsP/projects/1) é a fonte oficial de tarefas e status.
+
+
 ![React](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-22%2B-339933?logo=node.js&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-5-333333?logo=express&logoColor=white)
@@ -35,7 +51,7 @@ A aplicação é executada localmente, sem depender de hospedagem ou serviços d
 
 - **Node.js:** ambiente de execução JavaScript.
 - **Express 5:** implementação da API REST.
-- **Sequelize:** ORM para persistência de dados.
+- **PostgreSQL + Sequelize:** banco de dados relacional e ORM para persistência de dados.
 - **Sharp:** processamento e conversão de imagens.
 - **FFmpeg / FFprobe:** conversão e análise de áudio e vídeo.
 - **Multer:** recebimento e validação inicial de uploads.
@@ -44,7 +60,7 @@ A aplicação é executada localmente, sem depender de hospedagem ou serviços d
 
 ---
 
-## Arquitetura
+## Arquitetura atual
 
 A aplicação utiliza uma arquitetura em camadas, separando interface, comunicação HTTP, regras de negócio, processamento e persistência.
 
@@ -74,7 +90,7 @@ O frontend é responsável pela interação com o usuário, enquanto o backend l
                    |            |            |
                    |       Sharp / FFmpeg   Sequelize
                    |            |            |
-                   |            |           SQLite
+                   |            |          PostgreSQL
                    |            |
                    +------+-----+
                           |
@@ -190,6 +206,7 @@ Arquivos temporários são removidos por uma rotina de limpeza. Os registros do 
 ### Pré-requisitos
 
 - Node.js 22.12 ou superior.
+- PostgreSQL em execução (configurado via `DATABASE_URL`).
 - npm.
 - Git.
 - FFmpeg e FFprobe para conversões de áudio e vídeo.
@@ -243,7 +260,8 @@ Os arquivos `.env.example` do frontend e backend apresentam as configurações d
 
 - Porta da API.
 - Origem permitida no CORS.
-- Local de armazenamento.
+- URL de conexão com o PostgreSQL (`DATABASE_URL`).
+- Local de armazenamento de arquivos temporários.
 - Limite de tamanho dos arquivos.
 - Tempo de retenção.
 - Caminhos do FFmpeg e FFprobe.
@@ -326,7 +344,7 @@ cd frontend
 npm run build
 ```
 
-Os testes da API utilizam um banco em memória e armazenamento temporário, sem alterar o histórico local do usuário.
+Os testes da API utilizam o PostgreSQL e armazenamento temporário, restaurando o histórico local do usuário ao final.
 
 Testes que dependem do FFmpeg podem ser ignorados quando a ferramenta não está instalada.
 
@@ -341,7 +359,7 @@ O DropZone foi desenvolvido para uso pessoal e não possui uma instância públi
 - A interface é executada pelo navegador.
 - O backend é iniciado no próprio computador.
 - Os arquivos convertidos são processados localmente pelo backend.
-- O histórico é armazenado em SQLite.
+- O histórico é armazenado em PostgreSQL.
 - Os resultados temporários seguem uma política de retenção e limpeza.
 - Downloads por URL exigem conexão com a internet.
 

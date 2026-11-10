@@ -19,7 +19,7 @@ export const openapi = {
     title: 'DropZone API',
     version: '1.0.0',
     description:
-      'API acadêmica de downloads por link direto, conversão de imagens/áudio/vídeo e histórico persistido com Sequelize + SQLite. Sem autenticação: uso local e individual. Arquivos gerados expiram; metadados permanecem. Links de páginas, playlists, PDFs e documentos Office não são suportados.',
+      'API acadêmica de downloads por link direto, conversão de imagens/áudio/vídeo e histórico persistido com Sequelize + PostgreSQL. Sem autenticação: uso local e individual. Arquivos gerados expiram; metadados permanecem. Links de páginas, playlists, PDFs e documentos Office não são suportados.',
   },
   servers: [
     { url: '/', description: 'Servidor atual (também funciona pelo proxy Vite)' },
@@ -32,6 +32,22 @@ export const openapi = {
     { name: 'Arquivos' },
   ],
   paths: {
+    '/api/downloads/{id}/preview': {
+      get: {
+        tags: ['Downloads'],
+        summary: 'Prévia da mídia já analisada (válida por até 15 minutos)',
+        parameters: [idParameter],
+        responses: {
+          200: {
+            description:
+              'Arquivo validado, com Content-Type de mídia e Cache-Control no-store.',
+          },
+          206: { description: 'Trecho do arquivo solicitado por Range.' },
+          409: { description: 'Arquivo em processamento.' },
+          410: { description: 'Análise inexistente, expirada ou consumida.' },
+        },
+      },
+    },
     '/api/health': {
       get: {
         tags: ['Sistema'],
@@ -318,6 +334,10 @@ export const openapi = {
         type: 'object',
         properties: {
           sourceId: { type: 'string', format: 'uuid' },
+          previewUrl: {
+            type: 'string',
+            description: 'URL relativa da prévia; expira junto com a análise.',
+          },
           fileName: { type: 'string' },
           sizeBytes: { type: 'integer' },
           kind: { type: 'string', enum: ['image', 'audio', 'video'] },

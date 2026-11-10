@@ -4,6 +4,8 @@ import { stat, open } from 'node:fs/promises';
 import { env } from '../config/env.js';
 import { AppError } from '../shared/AppError.js';
 
+sharp.cache(false);
+
 export const imageFormats = ['png', 'jpg', 'webp', 'avif'];
 export const audioFormats = ['mp3', 'wav', 'ogg'];
 export const videoFormats = ['mp4', 'webm', ...audioFormats];

@@ -1,4 +1,5 @@
 const baseUrl = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+export const mediaUrl = (path) => (path ? `${baseUrl}${path}` : null);
 export const apiDocsUrl = `${baseUrl}/api-docs`;
 
 export async function request(path, { method = 'GET', body, signal } = {}) {

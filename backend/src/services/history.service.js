@@ -27,7 +27,7 @@ export async function getHistory({ kind, status, q, page = 1, limit = 10 }) {
     throw new AppError(400, 'Paginação inválida. Use limit entre 1 e 50.');
   if (q)
     where[Op.and] = sqlWhere(
-      fn('instr', fn('lower', col('inputName')), String(q).slice(0, 100).toLowerCase()),
+      fn('strpos', fn('lower', col('inputName')), String(q).slice(0, 100).toLowerCase()),
       { [Op.gt]: 0 },
     );
   const result = await Job.findAndCountAll({

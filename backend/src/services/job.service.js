@@ -35,6 +35,7 @@ export function serializeJob(instance) {
     job.status === 'completed' && !!filePath && new Date(job.expiresAt) > new Date();
   return {
     ...publicJob,
+    sizeBytes: Number(job.sizeBytes || 0),
     downloadable,
     downloadUrl: downloadable ? `/api/files/${job.id}` : null,
   };
@@ -66,6 +67,7 @@ export async function inspectDownload(url, fetchRemote = downloadRemote) {
     sources.set(id, source);
     return {
       sourceId: id,
+      previewUrl: `/api/downloads/${id}/preview`,
       fileName: file.fileName,
       sizeBytes: file.sizeBytes,
       ...info,
@@ -78,6 +80,21 @@ export async function inspectDownload(url, fetchRemote = downloadRemote) {
   } finally {
     release();
   }
+}
+
+export function getSourcePreview(id) {
+  const source = sources.get(id);
+  if (!source || source.expiresAt <= Date.now())
+    throw new AppError(
+      410,
+      'A prévia expirou. Analise o link novamente.',
+      'SOURCE_EXPIRED',
+    );
+  if (source.busy) throw new AppError(409, 'O arquivo está em processamento.');
+  return {
+    filePath: source.path,
+    mimeType: mimeTypes[source.info.format] || 'application/octet-stream',
+  };
 }
 
 async function processJob({ kind, input, inputName, info, format, sourceUrl }) {

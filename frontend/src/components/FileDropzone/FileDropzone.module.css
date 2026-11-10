@@ -1,62 +1,52 @@
 .dropzone {
-  border: 1px dashed #4b5887;
-  background: #0d1733;
-  border-radius: 14px;
-  transition:
-    border-color 0.2s,
-    background 0.2s;
+  width: min(480px, 100%);
+  margin: 24px auto 0;
+  border-radius: 24px;
+  transition: background 150ms;
 }
 .target {
+  padding: 20px 28px;
+  background: none;
   display: flex;
-  width: 100%;
-  min-height: 270px;
-  padding: 30px 16px;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: none;
-  border-radius: 14px;
+  gap: 12px;
+  width: 100%;
+  color: #c4d8cb;
+  border-radius: 24px;
 }
 .uploadIcon {
-  width: 65px;
-  height: 65px;
-  background: color-mix(in srgb, var(--palette-purple) 8.24%, transparent);
-  border: 1px solid color-mix(in srgb, var(--palette-purple) 18.82%, transparent);
-  border-radius: 18px;
   display: grid;
   place-items: center;
-  color: #a3a6f5;
-  margin-bottom: 22px;
-  transform: rotate(-5deg);
-}
-.uploadIcon svg {
-  transform: rotate(5deg);
+  width: 48px;
+  height: 48px;
+  border: 1px solid #c9f5d244;
+  border-radius: 50%;
+  margin-bottom: 4px;
 }
 .target strong {
-  font: 500 21px var(--display);
-  letter-spacing: -0.7px;
+  font-size: 13px;
+  font-weight: 400;
 }
 .target > span:not(.uploadIcon) {
   font-size: 12px;
-  color: var(--color-text-muted);
-  margin-top: 9px;
+  color: #a6bdb6;
 }
 .target em {
-  color: #b2b5ff;
+  color: #c6e3d1;
   font-style: normal;
   text-decoration: underline;
-  text-underline-offset: 3px;
+  text-underline-offset: 4px;
 }
 .target small {
-  color: #6f7da2;
-  font-size: 9px;
-  margin-top: 24px;
+  font-size: 10px;
+  color: #9bb3ac;
 }
 .dropzone:hover,
 .dragging {
-  border-color: var(--color-accent);
-  background: color-mix(in srgb, var(--palette-neon) 3.14%, transparent);
+  background: #c9f5d20a;
+  outline: 1px dashed #c9f5d244;
 }
 .disabled {
-  opacity: 0.55;
+  opacity: 0.5;
 }

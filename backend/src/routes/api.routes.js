@@ -27,6 +27,7 @@ apiRoutes.get('/health', (_req, res) =>
 );
 apiRoutes.get('/formats', (_req, res) => res.json(capabilities()));
 apiRoutes.post('/downloads/inspect', processingLimit, downloads.inspect);
+apiRoutes.get('/downloads/:id/preview', downloads.preview);
 apiRoutes.post('/downloads', processingLimit, downloads.create);
 apiRoutes.post(
   '/conversions',
