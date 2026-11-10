@@ -362,6 +362,7 @@ export const openapi = {
           mimeType: { type: 'string', nullable: true },
           sizeBytes: { type: 'integer' },
           errorMessage: { type: 'string', nullable: true },
+          favorite: { type: 'boolean', example: false },
           createdAt: { type: 'string', format: 'date-time' },
           updatedAt: { type: 'string', format: 'date-time' },
           completedAt: { type: 'string', format: 'date-time', nullable: true },
