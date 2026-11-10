@@ -59,19 +59,20 @@ Não há fila distribuída. As operações aguardam o processamento na própria 
 
 ## Modelo Job
 
-| Campo                                     | Finalidade                                         |
-| ----------------------------------------- | -------------------------------------------------- |
-| `id`                                      | UUID da operação                                   |
-| `kind`                                    | `download` ou `conversion`                         |
-| `status`                                  | `processing`, `completed` ou `failed`              |
-| `inputName`, `outputName`                 | Nomes apresentados ao usuário                      |
-| `inputFormat`, `outputFormat`, `mimeType` | Identificação dos formatos                         |
-| `sizeBytes`                               | Tamanho do resultado; não representa tráfego total |
-| `sourceUrl`                               | Origem de um download; não é devolvida na listagem |
-| `filePath`                                | Caminho interno, omitido nas respostas públicas    |
-| `errorMessage`                            | Motivo legível de uma falha de processamento       |
-| `createdAt`, `updatedAt`, `completedAt`   | Datas da operação                                  |
-| `expiresAt`                               | Prazo para salvar o resultado                      |
+| Campo                                     | Finalidade                                                             |
+| ----------------------------------------- | ---------------------------------------------------------------------- |
+| `id`                                      | UUID da operação                                                       |
+| `kind`                                    | `download` ou `conversion`                                             |
+| `status`                                  | `processing`, `completed` ou `failed`                                  |
+| `inputName`, `outputName`                 | Nomes apresentados ao usuário                                          |
+| `inputFormat`, `outputFormat`, `mimeType` | Identificação dos formatos                                             |
+| `sizeBytes`                               | Tamanho do resultado; não representa tráfego total                     |
+| `sourceUrl`                               | Origem de um download; não é devolvida na listagem                     |
+| `filePath`                                | Caminho interno, omitido nas respostas públicas                        |
+| `errorMessage`                            | Motivo legível de uma falha de processamento                           |
+| `favorite`                                | Marca o registro como favorito; favoritos não expiram (padrão `false`) |
+| `createdAt`, `updatedAt`, `completedAt`   | Datas da operação                                                      |
+| `expiresAt`                               | Prazo para salvar o resultado                                          |
 
 Erros de validação que acontecem antes de criar um Job não aparecem no histórico. Falhas após criar o registro recebem situação `failed`. Na inicialização, jobs interrompidos são marcados como falhos, entradas antigas são removidas e saídas órfãs são limpas.
 
