@@ -10,6 +10,7 @@ export const Job = sequelize.define(
       allowNull: false,
       validate: { isIn: [['download', 'conversion']] },
     },
+    favorite: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
     status: {
       type: DataTypes.STRING,
       allowNull: false,
