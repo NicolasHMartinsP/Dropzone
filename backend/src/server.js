@@ -5,11 +5,13 @@ import { migrate } from './database/migrate.js';
 import { ensureStorage } from './shared/files.js';
 import { cleanupStorage } from './services/job.service.js';
 import { capabilities } from './services/conversion.service.js';
+import { deleteExpiredSessions } from './services/auth.service.js';
 
 try {
   await ensureStorage();
   await migrate();
   await cleanupStorage({ startup: true });
+  await deleteExpiredSessions();
   capabilities();
   const server = app.listen(env.port, env.host, () => {
     console.log(`DropZone API: http://localhost:${env.port}/api`);
@@ -20,7 +22,7 @@ try {
       );
   });
   const timer = setInterval(
-    () => cleanupStorage().catch((error) => console.error(error.message)),
+    () => runCleanup().catch((error) => console.error(error.message)),
     60000,
   );
   timer.unref();
@@ -35,4 +37,8 @@ try {
 } catch (error) {
   console.error('Não foi possível iniciar a API:', error.message);
   process.exit(1);
+}
+async function runCleanup() {
+  await cleanupStorage();
+  await deleteExpiredSessions();
 }

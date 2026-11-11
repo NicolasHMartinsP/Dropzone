@@ -13,7 +13,7 @@ process.env.STORAGE_DIR = testDirectory;
 process.env.MAX_FILE_SIZE_MB = '1';
 
 const { app } = await import('../src/app.js');
-const { processingLimit } = await import('../src/routes/api.routes.js');
+const { processingLimit } = await import('../src/middlewares/rateLimits.js');
 const { sequelize } = await import('../src/config/database.js');
 const { migrate } = await import('../src/database/migrate.js');
 const { Job } = await import('../src/models/Job.js');
@@ -24,7 +24,7 @@ const { inspectDownload, cleanupStorage } = await import(
 const { capabilities, runTool, identifyFile } = await import(
   '../src/services/conversion.service.js'
 );
-const { openapi } = await import('../src/docs/openapi.js');
+const { swaggerDocument } = await import('../src/docs/swagger.js');
 const { parsePublicUrl, resolvePublicUrl } = await import(
   '../src/services/remote.service.js'
 );
@@ -61,7 +61,7 @@ test('API informa as capacidades reais e o Swagger valida contra OpenAPI 3', asy
   const health = await request(app).get('/api/health').expect(200);
   assert.equal(health.body.status, 'ok');
   assert.deepEqual(health.body.capabilities.images, ['png', 'jpg', 'webp', 'avif']);
-  await SwaggerParser.validate(structuredClone(openapi));
+  await SwaggerParser.validate(structuredClone(swaggerDocument));
   await request(app).get('/api-docs/').expect(200).expect('Content-Type', /html/);
   await request(app).get('/api-docs.json').expect(200);
 });

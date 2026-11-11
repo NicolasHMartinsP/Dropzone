@@ -26,7 +26,7 @@ O projeto tem duas aplicações independentes. O frontend conhece a API por HTTP
 1. `ConvertPage` recebe um `File`, verifica tipo/tamanho inicialmente e guarda a escolha do formato.
 2. `conversionService.convert` cria `FormData` e usa o cliente HTTP em `services/api.js`.
 3. O Vite encaminha `/api/conversions` para a API durante o desenvolvimento.
-4. `api.routes.js` aplica limite de solicitações e o Multer recebe o arquivo no disco.
+4. `routes/conversions.routes.js` aplica o limite de solicitações (`middlewares/rateLimits.js`) e o Multer recebe o arquivo no disco.
 5. `conversion.controller.js` verifica os campos da requisição e chama o service.
 6. `job.service.js` identifica o conteúdo, cria um Job em processamento e coordena o resultado.
 7. `conversion.service.js` transforma os bytes com Sharp ou FFmpeg.

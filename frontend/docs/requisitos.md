@@ -17,7 +17,7 @@
 | Estilos globais                 | `frontend/src/styles/global.css` com tokens e paleta                                      |
 | React Router DOM                | `BrowserRouter`, `Routes`, `Route`, `Link`, `NavLink` e `Outlet`                          |
 | Sequelize                       | `Job` com PostgreSQL (`pg`) e migração versionada (#12)                                   |
-| Swagger para documentar/testar  | `/api-docs`, `/api-docs.json` e `backend/src/docs/openapi.js`                             |
+| Swagger para documentar/testar  | `/api-docs`, `/api-docs.json` e `backend/src/docs/swagger.js`                             |
 | Documentação no frontend        | `frontend/docs` com telas, componentes, testes e manutenção                               |
 | GitHub Projects Board           | Quadro real: https://github.com/users/NicolasHMartinsP/projects/1        |
 | Issues com responsável e aceite | Issues publicadas no repositório; Projects é a fonte oficial           |

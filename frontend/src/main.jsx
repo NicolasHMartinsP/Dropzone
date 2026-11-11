@@ -11,13 +11,16 @@ import '@fontsource/space-grotesk/700.css';
 import './styles/global.css';
 import App from './App.jsx';
 import { AppProvider } from './contexts/AppContext.jsx';
+import { AuthProvider } from './contexts/AuthContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-      <AppProvider>
-        <App />
-      </AppProvider>
+      <AuthProvider>
+        <AppProvider>
+          <App />
+        </AppProvider>
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,
 );

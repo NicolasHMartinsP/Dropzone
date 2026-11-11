@@ -1,0 +1,47 @@
+.page {
+  display: grid;
+  place-items: center;
+  padding-block: 60px 80px;
+}
+.card {
+  display: grid;
+  gap: 20px;
+  width: min(440px, 100%);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 32px;
+}
+.card h1 {
+  font: 500 32px var(--display);
+  letter-spacing: -1px;
+}
+.card h2 {
+  font: 500 18px var(--display);
+}
+.card form {
+  display: grid;
+  gap: 14px;
+}
+.card hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  width: 100%;
+}
+.description,
+.footer {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.footer {
+  text-align: center;
+}
+.footer a {
+  color: var(--color-accent);
+}
+@media (max-width: 420px) {
+  .card {
+    padding: 24px 20px;
+  }
+}
