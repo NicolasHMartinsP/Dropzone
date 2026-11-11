@@ -37,6 +37,9 @@ import {
   HardDrive,
   Clipboard,
   Plus,
+  User,
+  LogIn,
+  LogOut,
 } from 'lucide-react';
 import styles from './Icon.module.css';
 const icons = {
@@ -78,6 +81,9 @@ const icons = {
   drive: HardDrive,
   clipboard: Clipboard,
   plus: Plus,
+  user: User,
+  login: LogIn,
+  logout: LogOut,
 };
 export function Icon({ name, size = 20, className = '', ...props }) {
   const Component = icons[name] || File;

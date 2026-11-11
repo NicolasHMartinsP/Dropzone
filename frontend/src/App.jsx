@@ -3,6 +3,10 @@ import { Layout } from './components/Layout/Layout.jsx';
 import { LandingPage } from './pages/LandingPage/LandingPage.jsx';
 import { HistoryPage } from './pages/HistoryPage/HistoryPage.jsx';
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage.jsx';
+import { LoginPage } from './pages/LoginPage/LoginPage.jsx';
+import { RegisterPage } from './pages/RegisterPage/RegisterPage.jsx';
+import { ProfilePage } from './pages/ProfilePage/ProfilePage.jsx';
+import { RequireLogin } from './components/RequireLogin/RequireLogin.jsx';
 
 export default function App() {
   return (

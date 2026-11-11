@@ -8,6 +8,7 @@ import { useAuth } from '../../contexts/AuthContext.jsx';
 export function Header() {
   const { pathname } = useLocation();
   const menu = useRef(null);
+  const { user } = useAuth();
   const labels = {
     '/conversor': 'Converter',
     '/historico': 'Histórico',
@@ -27,7 +28,6 @@ export function Header() {
         menu.current.querySelector('summary').focus();
       }
     }
-    const { user } = useAuth();
     document.addEventListener('pointerdown', close);
     document.addEventListener('keydown', escape);
     return () => {
