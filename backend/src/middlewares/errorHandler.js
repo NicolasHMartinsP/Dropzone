@@ -30,4 +30,13 @@ export async function errorHandler(error, req, res, _next) {
           : 'Não foi possível concluir a operação. Tente novamente.',
     },
   });
+  if (error.name === 'SequelizeValidationError')
+    return res.status(400).json({
+      error: { code: 'VALIDATION_ERROR', message: error.errors[0].message },
+    });
+
+  if (error.name === 'SequelizeUniqueConstraintError')
+    return res.status(409).json({
+      error: { code: 'ALREADY_EXISTS', message: 'Este e-mail já está cadastrado.' },
+    });
 }
