@@ -19,6 +19,7 @@ export async function createUser({ name, email, password } = {}) {
 
   const user = await User.create({
     name: text(name),
+    email: text(email).toLowerCase(),
     passwordHash: await hashPassword(password),
   });
   return toPublicUser(user);

@@ -30,6 +30,7 @@ export const openapi = {
     { name: 'Conversões' },
     { name: 'Histórico' },
     { name: 'Arquivos' },
+    { name: 'Usuários' },
   ],
   paths: {
     '/api/downloads/{id}/preview': {
@@ -281,6 +282,42 @@ export const openapi = {
         responses: { 204: { description: 'Registro removido' }, 404: error, 409: error },
       },
     },
+    '/api/users': {
+      post: {
+        tags: ['Usuários'],
+        operationId: 'createUser',
+        summary: 'Cadastrar um novo usuário',
+        requestBody: body({
+          type: 'object',
+          required: ['name', 'email', 'password'],
+          properties: {
+            name: { type: 'string', minLength: 1, maxLength: 20, example: 'Nico' },
+            email: {
+              type: 'string',
+              format: 'email',
+              maxLength: 70,
+              example: 'nico@teste.com',
+            },
+            password: {
+              type: 'string',
+              format: 'password',
+              minLength: 8,
+              maxLength: 128,
+              example: 'senha12345',
+            },
+          },
+        }),
+        responses: {
+          201: {
+            description: 'Usuário criado (sem a senha)',
+            content: json(ref('User')),
+          },
+          400: error,
+          409: error,
+          429: error,
+        },
+      },
+    },
     '/api/files/{id}': {
       get: {
         tags: ['Arquivos'],
@@ -314,6 +351,16 @@ export const openapi = {
           },
         },
         required: ['error'],
+      },
+      User: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'uuid' },
+          name: { type: 'string' },
+          email: { type: 'string', format: 'email' },
+          createdAt: { type: 'string', format: 'date-time' },
+          updatedAt: { type: 'string', format: 'date-time' },
+        },
       },
       Formats: {
         type: 'object',
