@@ -1,0 +1,15 @@
+.field {
+  display: grid;
+  gap: 6px;
+}
+.field label {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+.field input {
+  background: #0b1530;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 14px;
+}

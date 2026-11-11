@@ -3,6 +3,9 @@ import { AppError } from '../shared/AppError.js';
 import { env } from '../config/env.js';
 import { removeFile } from '../shared/files.js';
 
+const duplicateMessages = {
+  email: 'Este e-mail já está cadastrado.',
+};
 export async function errorHandler(error, req, res, _next) {
   await removeFile(req.file?.path);
   if (res.headersSent) return res.end();
@@ -20,6 +23,22 @@ export async function errorHandler(error, req, res, _next) {
     return res
       .status(400)
       .json({ error: { code: 'INVALID_JSON', message: 'O corpo JSON é inválido.' } });
+
+  if (error.name === 'SequelizeValidationError')
+    return res.status(400).json({
+      error: { code: 'VALIDATION_ERROR', message: error.errors[0].message },
+    });
+
+  if (error.name === 'SequelizeUniqueConstraintError') {
+    const repeatedField = error.errors[0]?.path;
+    return res.status(409).json({
+      error: {
+        code: 'ALREADY_EXISTS',
+        message: duplicateMessages[repeatedField] || 'Este registro já existe.',
+      },
+    });
+  }
+
   if (!(error instanceof AppError)) console.error('[DropZone]', error.message);
   res.status(error.status || 500).json({
     error: {

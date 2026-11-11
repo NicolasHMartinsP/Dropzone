@@ -4,6 +4,13 @@ import { Job } from '../models/Job.js';
 import { AppError } from '../shared/AppError.js';
 import { removeFile } from '../shared/files.js';
 import { serializeJob } from './job.service.js';
+import { isUuid } from '../shared/validators.js';
+
+export async function findJobOrFail(id) {
+  const job = isUuid(id) ? await Job.findByPk(id) : null;
+  if (!job) throw new AppError(404, 'Registro não encontrado.', 'NOT_FOUND');
+  return job;
+}
 
 export async function getHistory({ kind, status, q, page = 1, limit = 10 }) {
   const where = {};
@@ -67,8 +74,7 @@ export async function getStats() {
 }
 
 export async function getFile(id) {
-  const job = await Job.findByPk(id);
-  if (!job) throw new AppError(404, 'Registro não encontrado.');
+  const job = await findJobOrFail(id);
   if (!serializeJob(job).downloadable)
     throw new AppError(
       410,
@@ -83,8 +89,7 @@ export async function getFile(id) {
 }
 
 export async function deleteJob(id) {
-  const job = await Job.findByPk(id);
-  if (!job) throw new AppError(404, 'Registro não encontrado.');
+  const job = await findJobOrFail(id);
   if (job.status === 'processing')
     throw new AppError(409, 'Aguarde o processamento terminar para excluir.');
   await removeFile(job.filePath);
