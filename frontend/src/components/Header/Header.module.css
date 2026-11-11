@@ -54,3 +54,25 @@
     padding: 20px;
   }
 }
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #c9f5d22b;
+  border-radius: 50%;
+  background: #07162677;
+  color: #bbcdc5;
+}
+.profile:hover,
+.profile[aria-current] {
+  background: #bbf0c211;
+  color: #d7f7d8;
+}

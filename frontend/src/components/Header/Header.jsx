@@ -38,26 +38,35 @@ export function Header() {
   return (
     <header className={styles.header}>
       <Brand />
-      <details ref={menu} className={styles.menu}>
-        <summary aria-label={'Trocar ferramenta: ' + label}>
-          {label}
-          <Icon name="chevronDown" size={15} />
-        </summary>
-        <nav aria-label="Ferramentas">
-          <NavLink to="/" end>
-            <Icon name="download" size={16} /> Baixar
-          </NavLink>
-          <NavLink to="/conversor">
-            <Icon name="convert" size={16} /> Converter
-          </NavLink>
-          <NavLink to="/historico">
-            <Icon name="clock" size={16} /> Histórico
-          </NavLink>
-          <NavLink to={user ? '/perfil' : '/login'}>
-            <Icon name="user" size={16} /> {user ? user.name : 'Entrar'}
-          </NavLink>
-        </nav>
-      </details>
+      <div classNmae={styles.actions}>
+        <details ref={menu} className={styles.menu}>
+          <summary aria-label={'Trocar ferramenta: ' + label}>
+            {label}
+            <Icon name="chevronDown" size={15} />
+          </summary>
+          <nav aria-label="Ferramentas">
+            <NavLink to={user ? '/perfil' : '/login'}>
+              <Icon name="user" size={16} /> {user ? user.name : 'Entrar'}
+            </NavLink>
+            <NavLink to="/" end>
+              <Icon name="download" size={16} /> Baixar
+            </NavLink>
+            <NavLink to="/conversor">
+              <Icon name="convert" size={16} /> Converter
+            </NavLink>
+            <NavLink to="/historico">
+              <Icon name="clock" size={16} /> Histórico
+            </NavLink>
+          </nav>
+        </details>
+        <NavLink
+          to="/perfil"
+          className={styles.profile}
+          aria-label={user ? `Perfil de ${user.name}` : 'Entrar na conta'}
+        >
+          <Icon name="user" size={18} />
+        </NavLink>
+      </div>
     </header>
   );
 }

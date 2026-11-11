@@ -132,7 +132,7 @@ export function ProfilePage() {
 
       <hr />
 
-      <Button variant="ghost" icon="close" onClick={leave}>
+      <Button variant="ghost" icon="logout" onClick={leave}>
         Sair
       </Button>
       <Button variant="danger" icon="trash" onClick={() => setConfirmingDelete(true)}>
