@@ -38,7 +38,7 @@ export function Header() {
   return (
     <header className={styles.header}>
       <Brand />
-      <div classNmae={styles.actions}>
+      <div className={styles.actions}>
         <details ref={menu} className={styles.menu}>
           <summary aria-label={'Trocar ferramenta: ' + label}>
             {label}
@@ -46,7 +46,7 @@ export function Header() {
           </summary>
           <nav aria-label="Ferramentas">
             <NavLink to={user ? '/perfil' : '/login'}>
-              <Icon name="user" size={16} /> {user ? user.name : 'Entrar'}
+              <Icon name={user ? 'user' : 'login'} size={16} /> {user ? user.name : 'Entrar'}
             </NavLink>
             <NavLink to="/" end>
               <Icon name="download" size={16} /> Baixar
