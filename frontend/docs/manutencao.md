@@ -21,7 +21,7 @@ Evite nomes como `data2`, `handleThing` ou `doStuff`. Prefira `source`, `prepare
 ## Novo endpoint
 
 1. Defina entrada, saída, erros e critérios de aceite.
-2. Cadastre a rota e os middlewares em `backend/src/routes/api.routes.js`.
+2. Cadastre a rota no arquivo do recurso em `backend/src/routes/` (ex.: `history.routes.js`). Recurso novo: crie `<recurso>.routes.js` e monte-o em `routes/index.js`. Limites de requisição ficam em `middlewares/rateLimits.js`.
 3. Crie/ajuste o controller para lidar com HTTP.
 4. Implemente a regra em um service. Use `AppError` para erros esperados.
 5. Atualize `backend/src/docs/openapi.js`.

@@ -13,7 +13,7 @@ process.env.STORAGE_DIR = testDirectory;
 process.env.MAX_FILE_SIZE_MB = '1';
 
 const { app } = await import('../src/app.js');
-const { processingLimit } = await import('../src/routes/api.routes.js');
+const { processingLimit } = await import('../src/middlewares/rateLimits.js');
 const { sequelize } = await import('../src/config/database.js');
 const { migrate } = await import('../src/database/migrate.js');
 const { Job } = await import('../src/models/Job.js');
