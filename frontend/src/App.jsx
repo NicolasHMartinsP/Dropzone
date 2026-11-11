@@ -12,6 +12,16 @@ export default function App() {
         <Route path="downloads" element={<LandingPage />} />
         <Route path="conversor" element={<LandingPage />} />
         <Route path="historico" element={<HistoryPage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="cadastro" element={<RegisterPage />} />
+        <Route
+          path="perfil"
+          element={
+            <RequireLogin>
+              <ProfilePage />
+            </RequireLogin>
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

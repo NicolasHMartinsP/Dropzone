@@ -3,15 +3,19 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { Brand } from '../Brand/Brand.jsx';
 import { Icon } from '../Icon/Icon.jsx';
 import styles from './Header.module.css';
+import { useAuth } from '../../contexts/AuthContext.jsx';
+
 export function Header() {
   const { pathname } = useLocation();
   const menu = useRef(null);
-  const label =
-    pathname === '/conversor'
-      ? 'Converter'
-      : pathname === '/historico'
-        ? 'Histórico'
-        : 'Baixar';
+  const labels = {
+    '/conversor': 'Converter',
+    '/historico': 'Histórico',
+    '/login': 'Entrar',
+    '/cadastro': 'Cadastro',
+    '/perfil': 'Conta',
+  };
+  const label = labels[pathname] || 'Baixar';
   useEffect(() => {
     menu.current.open = false;
     function close(event) {
@@ -23,6 +27,7 @@ export function Header() {
         menu.current.querySelector('summary').focus();
       }
     }
+    const { user } = useAuth();
     document.addEventListener('pointerdown', close);
     document.addEventListener('keydown', escape);
     return () => {
@@ -47,6 +52,9 @@ export function Header() {
           </NavLink>
           <NavLink to="/historico">
             <Icon name="clock" size={16} /> Histórico
+          </NavLink>
+          <NavLink to={user ? '/perfil' : '/login'}>
+            <Icon name="user" size={16} /> {user ? user.name : 'Entrar'}
           </NavLink>
         </nav>
       </details>
