@@ -24,7 +24,7 @@ Evite nomes como `data2`, `handleThing` ou `doStuff`. Prefira `source`, `prepare
 2. Cadastre a rota no arquivo do recurso em `backend/src/routes/` (ex.: `history.routes.js`). Recurso novo: crie `<recurso>.routes.js` e monte-o em `routes/index.js`. Limites de requisição ficam em `middlewares/rateLimits.js`.
 3. Crie/ajuste o controller para lidar com HTTP.
 4. Implemente a regra em um service. Use `AppError` para erros esperados.
-5. Atualize `backend/src/docs/openapi.js`.
+5. Atualize `backend/src/docs/swagger.js`.
 6. Adicione um teste de comportamento relevante e execute `npm test`.
 7. No frontend, exponha a chamada por `src/services`; a página usa esse service.
 

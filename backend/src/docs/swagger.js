@@ -12,14 +12,17 @@ const idParameter = {
   required: true,
   schema: { type: 'string', format: 'uuid' },
 };
+// Rotas que exigem login: o navegador envia o cookie dz_session sozinho
+const loggedIn = [{ sessionCookie: [] }];
+const notLoggedIn = { description: 'Sem sessão ativa: faça login primeiro.', content: json(ref('Error')) };
 
-export const openapi = {
+export const swaggerDocument = {
   openapi: '3.0.3',
   info: {
     title: 'DropZone API',
     version: '1.0.0',
     description:
-      'API acadêmica de downloads por link direto, conversão de imagens/áudio/vídeo e histórico persistido com Sequelize + PostgreSQL. Sem autenticação: uso local e individual. Arquivos gerados expiram; metadados permanecem. Links de páginas, playlists, PDFs e documentos Office não são suportados.',
+      'API acadêmica de downloads por link direto, conversão de imagens/áudio/vídeo, histórico e contas de usuário, persistidos com Sequelize + PostgreSQL. Arquivos gerados expiram; metadados permanecem. Links de páginas, playlists, PDFs e documentos Office não são suportados.\n\n**Como testar as rotas com login:** 1) cadastre um usuário em `POST /api/users`; 2) entre em `POST /api/auth/login` — o navegador guarda o cookie `dz_session`; 3) as rotas com cadeado (`/api/users/me`) passam a funcionar nesta mesma aba. Para sair, use `POST /api/auth/logout`.',
   },
   servers: [
     { url: '/', description: 'Servidor atual (também funciona pelo proxy Vite)' },
@@ -30,7 +33,8 @@ export const openapi = {
     { name: 'Conversões' },
     { name: 'Histórico' },
     { name: 'Arquivos' },
-    { name: 'Usuários' },
+    { name: 'Usuários', description: 'CRUD da própria conta' },
+    { name: 'Autenticação', description: 'Login e logout com sessão em cookie' },
   ],
   paths: {
     '/api/downloads/{id}/preview': {
@@ -318,6 +322,84 @@ export const openapi = {
         },
       },
     },
+    '/api/users/me': {
+      get: {
+        tags: ['Usuários'],
+        operationId: 'getMyAccount',
+        summary: 'Consultar os dados do usuário logado (Read)',
+        security: loggedIn,
+        responses: {
+          200: { description: 'Usuário logado', content: json(ref('User')) },
+          401: notLoggedIn,
+        },
+      },
+      patch: {
+        tags: ['Usuários'],
+        operationId: 'updateMyAccount',
+        summary: 'Alterar nome, e-mail ou senha do usuário logado (Update)',
+        description:
+          'Envie só os campos que quer alterar. Para trocar a senha, `currentPassword` é obrigatório.',
+        security: loggedIn,
+        requestBody: body({
+          type: 'object',
+          minProperties: 1,
+          properties: {
+            name: { type: 'string', minLength: 1, maxLength: 20, example: 'Nicolas' },
+            email: { type: 'string', format: 'email', maxLength: 70 },
+            password: { type: 'string', format: 'password', minLength: 8, maxLength: 128 },
+            currentPassword: { type: 'string', format: 'password' },
+          },
+        }),
+        responses: {
+          200: { description: 'Usuário atualizado', content: json(ref('User')) },
+          400: error,
+          401: notLoggedIn,
+          409: error,
+        },
+      },
+      delete: {
+        tags: ['Usuários'],
+        operationId: 'deleteMyAccount',
+        summary: 'Excluir a conta do usuário logado (Delete)',
+        description: 'Apaga o usuário e todas as sessões dele, e remove o cookie.',
+        security: loggedIn,
+        responses: {
+          204: { description: 'Conta excluída' },
+          401: notLoggedIn,
+        },
+      },
+    },
+    '/api/auth/login': {
+      post: {
+        tags: ['Autenticação'],
+        operationId: 'login',
+        summary: 'Entrar: cria a sessão e envia o cookie dz_session',
+        requestBody: body({
+          type: 'object',
+          required: ['email', 'password'],
+          properties: {
+            email: { type: 'string', format: 'email', example: 'nico@teste.com' },
+            password: { type: 'string', format: 'password', example: 'senha12345' },
+          },
+        }),
+        responses: {
+          200: {
+            description: 'Login feito. A resposta traz o cabeçalho Set-Cookie com dz_session.',
+            content: json(ref('User')),
+          },
+          401: { description: 'E-mail ou senha incorretos.', content: json(ref('Error')) },
+          429: error,
+        },
+      },
+    },
+    '/api/auth/logout': {
+      post: {
+        tags: ['Autenticação'],
+        operationId: 'logout',
+        summary: 'Sair: apaga a sessão e o cookie',
+        responses: { 204: { description: 'Sessão encerrada' } },
+      },
+    },
     '/api/files/{id}': {
       get: {
         tags: ['Arquivos'],
@@ -340,6 +422,14 @@ export const openapi = {
     },
   },
   components: {
+    securitySchemes: {
+      sessionCookie: {
+        type: 'apiKey',
+        in: 'cookie',
+        name: 'dz_session',
+        description: 'Criado pelo POST /api/auth/login. O navegador envia sozinho.',
+      },
+    },
     schemas: {
       Error: {
         type: 'object',
