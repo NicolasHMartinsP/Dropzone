@@ -20,6 +20,17 @@ export async function errorHandler(error, req, res, _next) {
     return res
       .status(400)
       .json({ error: { code: 'INVALID_JSON', message: 'O corpo JSON é inválido.' } });
+  // Falhou um "validate" do model (ex.: isEmail, len) → erro de quem enviou
+  if (error.name === 'SequelizeValidationError')
+    return res.status(400).json({
+      error: { code: 'VALIDATION_ERROR', message: error.errors[0].message },
+    });
+  // O banco recusou por causa de um UNIQUE (ex.: e-mail repetido)
+  if (error.name === 'SequelizeUniqueConstraintError')
+    return res.status(409).json({
+      error: { code: 'ALREADY_EXISTS', message: 'Este e-mail já está cadastrado.' },
+    });
+  // Qualquer outro erro: AppError usa a própria mensagem; o resto vira 500 genérico
   if (!(error instanceof AppError)) console.error('[DropZone]', error.message);
   res.status(error.status || 500).json({
     error: {
@@ -30,13 +41,4 @@ export async function errorHandler(error, req, res, _next) {
           : 'Não foi possível concluir a operação. Tente novamente.',
     },
   });
-  if (error.name === 'SequelizeValidationError')
-    return res.status(400).json({
-      error: { code: 'VALIDATION_ERROR', message: error.errors[0].message },
-    });
-
-  if (error.name === 'SequelizeUniqueConstraintError')
-    return res.status(409).json({
-      error: { code: 'ALREADY_EXISTS', message: 'Este e-mail já está cadastrado.' },
-    });
 }
