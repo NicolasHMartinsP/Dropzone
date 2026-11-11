@@ -6,6 +6,7 @@ import * as history from '../controllers/history.controller.js';
 import { upload } from '../middlewares/upload.js';
 import { capabilities } from '../services/conversion.service.js';
 import { env } from '../config/env.js';
+import * as users from '../controllers/users.controller.js';
 
 export const apiRoutes = Router();
 export const processingLimit = rateLimit({
@@ -25,6 +26,7 @@ apiRoutes.get('/health', (_req, res) =>
     retentionHours: env.retentionHours,
   }),
 );
+apiRoutes.post('/users', processingLimit, users.create);
 apiRoutes.get('/formats', (_req, res) => res.json(capabilities()));
 apiRoutes.post('/downloads/inspect', processingLimit, downloads.inspect);
 apiRoutes.get('/downloads/:id/preview', downloads.preview);
