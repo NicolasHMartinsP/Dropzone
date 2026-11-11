@@ -1,6 +1,7 @@
 import { User } from '../models/index.js';
 import { AppError } from '../shared/AppError.js';
 import { hashPassword, verifyPassword } from '../shared/password.js';
+import { deleteOtherSessions } from './auth.service.js';
 
 export function toPublicUser(user) {
   const { id, name, email, createdAt, updatedAt } = user;
@@ -28,7 +29,11 @@ export async function createUser({ name, email, password } = {}) {
   return toPublicUser(user);
 }
 
-export async function updateUser(user, { name, email, password, currentPassword } = {}) {
+export async function updateUser(
+  user,
+  { name, email, password, currentPassword } = {},
+  currentSessionToken,
+) {
   const changes = {};
   if (name !== undefined) changes.name = text(name);
   if (email !== undefined) changes.email = text(email).toLowerCase();
@@ -45,6 +50,7 @@ export async function updateUser(user, { name, email, password, currentPassword 
     throw new AppError(400, 'Envie ao menos um campo para alterar.', 'NOTHING_TO_UPDATE');
 
   await user.update(changes);
+  if (changes.passwordHash) await deleteOtherSessions(user.id, currentSessionToken);
   return toPublicUser(user);
 }
 

@@ -10,7 +10,7 @@ export function me(req, res) {
 }
 
 export async function update(req, res) {
-  res.json(await usersService.updateUser(req.user, req.body));
+  res.json(await usersService.updateUser(req.user, req.body, req.sessionToken));
 }
 
 export async function remove(req, res) {

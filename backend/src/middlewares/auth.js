@@ -11,6 +11,7 @@ export async function requireAuth(req, res, next) {
   if (!user)
     throw new AppError(401, 'Entre na sua conta para continuar.', 'UNAUTHENTICATED');
   req.user = user;
+  req.sessionToken = token;
   res.cookie(SESSION_COOKIE, token, cookieOptions);
   next();
 }

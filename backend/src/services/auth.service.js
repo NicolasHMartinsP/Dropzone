@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 import { Session, User } from '../models/index.js';
 import { AppError } from '../shared/AppError.js';
 import { verifyPassword } from '../shared/password.js';
+import { env } from '../config/env.js';
 
 export const SESSION_COOKIE = 'dz_session';
 const SESSION_MS = 7 * 24 * 60 * 60 * 1000; // 7 dias
@@ -10,7 +11,7 @@ const SESSION_MS = 7 * 24 * 60 * 60 * 1000; // 7 dias
 export const cookieOptions = {
   httpOnly: true,
   sameSite: 'lax',
-  secure: process.env.NODE_ENV === 'production',
+  secure: env.isProduction,
   maxAge: SESSION_MS,
   path: '/',
 };
@@ -55,4 +56,14 @@ export async function findUserBySession(token) {
 export async function deleteSession(token) {
   if (typeof token === 'string' && token)
     await Session.destroy({ where: { tokenHash: hashToken(token) } });
+}
+
+export async function deleteExpiredSessions() {
+  await Session.destroy({ where: { expiresAt: { [Op.It]: new Date() } } });
+}
+
+export async function deleteOtherSessions(userId, currentToken) {
+  await Session.destroy({
+    where: { userId, tokenHash: { [Op.ne]: hashToken(currentToken || '') } },
+  });
 }
