@@ -59,7 +59,7 @@ export async function deleteSession(token) {
 }
 
 export async function deleteExpiredSessions() {
-  await Session.destroy({ where: { expiresAt: { [Op.It]: new Date() } } });
+  await Session.destroy({ where: { expiresAt: { [Op.it]: new Date() } } });
 }
 
 export async function deleteOtherSessions(userId, currentToken) {

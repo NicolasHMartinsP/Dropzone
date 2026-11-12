@@ -11,6 +11,7 @@ function positiveNumber(name, fallback) {
 }
 
 export const env = {
+  isProduction: process.env.NODE_ENV === 'production',
   port: positiveNumber('PORT', 3333),
   host: process.env.HOST || '127.0.0.1',
   clientOrigin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
